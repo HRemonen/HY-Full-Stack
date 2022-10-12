@@ -1,6 +1,14 @@
 import { useState } from 'react'
 
-const StatisticLine = ({text, value}) => <p>{text} {value}</p>
+const StatisticLine = ({text, value}) => {
+  return (
+    <tr>
+      <th>{text}</th>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
 
 const Button = ({onClick, text}) => 
   <button onClick={onClick}> 
@@ -13,14 +21,18 @@ const Statistics = ({good, neutral, bad, totalClicks, totalValue}) => {
       <p>Cannot forge statistics. No feedbacks given yet!</p>
     )
   }
-  return (
+  return ( 
     <div>
-      <StatisticLine text={"Good: "} value={good} />
-      <StatisticLine text={"Neutral: "} value={neutral} />
-      <StatisticLine text={"Bad: "} value={bad}/>
-      <StatisticLine text={"All: "} value={totalClicks} />
-      <StatisticLine text={"Average: "} value={totalValue / totalClicks} />
-      <StatisticLine text={"Positive: "} value={((good / totalClicks) * 100) + " %" } />
+      <table>
+        <tbody> 
+        <StatisticLine text={"Good: "} value={good} />
+        <StatisticLine text={"Neutral: "} value={neutral} />
+        <StatisticLine text={"Bad: "} value={bad}/>
+        <StatisticLine text={"All: "} value={totalClicks} />
+        <StatisticLine text={"Average: "} value={totalValue / totalClicks} />
+        <StatisticLine text={"Positive: "} value={((good / totalClicks) * 100) + " %" } />
+        </tbody>
+      </table>
     </div>
   )
 }
