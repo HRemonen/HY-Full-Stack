@@ -2,10 +2,28 @@ import { useState } from 'react'
 
 const Display = ({text, value}) => <p>{text} {value}</p>
 
-const Button = ({ onClick, text }) => 
+const Button = ({onClick, text}) => 
   <button onClick={onClick}> 
     {text} 
   </button>
+
+const Statistics = ({good, neutral, bad, totalClicks, totalValue}) => {
+  if (totalClicks === 0) {
+    return (
+      <p>Cannot forge statistics. No feedbacks given yet!</p>
+    )
+  }
+  return (
+    <div>
+      <Display text={"Good: "} value={good} />
+      <Display text={"Neutral: "} value={neutral} />
+      <Display text={"Bad: "} value={bad}/>
+      <Display text={"All: "} value={totalClicks} />
+      <Display text={"Average: "} value={totalValue / totalClicks} />
+      <Display text={"Positive: "} value={((good / totalClicks) * 100) + " %" } />
+    </div>
+  )
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
@@ -42,12 +60,7 @@ const App = () => {
       <Button onClick={badFeedback} text="Bad" />
 
       <h1>Statistics</h1>
-      <Display text={"Good: "} value={good}></Display>
-      <Display text={"Neutral: "} value={neutral}></Display>
-      <Display text={"Bad: "} value={bad}></Display>
-      <Display text={"All: "} value={totalClicks}></Display>
-      <Display text={"Average: "} value={totalValue / totalClicks}></Display>
-      <Display text={"Positive: "} value={((good / totalClicks) * 100) + " %" }></Display>
+      <Statistics good={good} neutral={neutral} bad={bad} totalClicks={totalClicks} totalValue={totalValue} />
     </div>
   )
 }
