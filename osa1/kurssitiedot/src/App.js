@@ -22,7 +22,7 @@ const Part = (props) => (
 const Content = (props) => {
   return (
     <div>
-      {props.data.map((x) => 
+      {props.parts.map((x) => 
         <Part name={x.name} exercises={x.exercises}/>
         )}
     </div>
@@ -32,7 +32,10 @@ const Content = (props) => {
 const Total = (props) => {
   return (
     <div>
-      <p>Total number of exercises: {props.total}</p>
+      <p>Total number of exercises: {
+          props.parts[0].exercises + 
+          props.parts[1].exercises + 
+          props.parts[2].exercises}</p>
     </div>
   )
 }
@@ -56,8 +59,8 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content data={parts} />
-      <Total total={parts[0].exercises + parts[1].exercises + parts[2].exercises} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
