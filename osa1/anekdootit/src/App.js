@@ -1,13 +1,24 @@
 import { useState } from 'react'
 
-const Button = ({onClick, text}) => 
-  <button onClick={onClick}> 
-    {text} 
-  </button>
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}> 
+      {text} 
+    </button>
+  )
+}
+  
 
 
-const Anecdote = ({text}) => <p>{text}</p>
-
+const Anecdote = ({text, times}) => {
+  return (
+    <>
+      <p>{text}</p>
+      <p>has {times} votes</p>
+    </>
+    
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -21,20 +32,25 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
 
-  const randomNumber = (max, min) => {
-    return Math.floor(Math.random() * (max - min)) + min
+  const randomAnecdote = () => {
+    setSelected(Math.floor(Math.random() * (anecdotes.length))) 
   }
 
-  const clickHandler = () => {
-    setSelected(randomNumber(0, 7))
-    console.log(selected)
+  const pointsHandler = () => {
+    const copyPoints = [...points]
+    copyPoints[selected] += 1
+    setPoints(copyPoints)
+
+    console.log(points)
   }  
   
   return (
     <div>
-      <Anecdote text={anecdotes[selected]} />
-      <Button onClick={clickHandler} text="Next anecdote" />
+      <Anecdote text={anecdotes[selected]} times={points[selected]}/>
+      <Button onClick={pointsHandler} text="Vote this anecdote" />
+      <Button onClick={randomAnecdote} text="Next anecdote" />
     </div>
   )
 }
