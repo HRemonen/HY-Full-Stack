@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_tut.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-wrapper">
+        <form action="/form-handler" method="post">
+            <ul>
+                <li>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="user_name">
+                </li>
+                <li>
+                    <label for="mail">E-mail:</label>
+                    <input type="text" id="mail" name="user_mail">
+                </li>
+                <li>
+                    <label for="message">Message:</label>
+                    <textarea name="user_message" id="msg" cols="30" rows="10"></textarea>
+                </li>
+                <li>
+                    <button type="submit">Send your message</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    
+    
+</body>
+</html>
