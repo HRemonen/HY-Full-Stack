@@ -4,4 +4,4 @@ Course repository.
 
 ### Progress
 
-- [x] osa 1
+- [x] osa 0
