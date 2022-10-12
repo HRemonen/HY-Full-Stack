@@ -7,8 +7,6 @@ const Button = ({onClick, text}) => {
     </button>
   )
 }
-  
-
 
 const Anecdote = ({text, times}) => {
   return (
@@ -16,6 +14,30 @@ const Anecdote = ({text, times}) => {
       <p>{text}</p>
       <p>has {times} votes</p>
     </>
+  )
+}
+
+const MostVotesAnecdote = ({anecdotes, points}) => {
+  let mostPoints = 0
+  let mostPointsIndex = 0
+  const copyPoints = [...points]
+
+  for (let i = 0; i < anecdotes.length; i++) {
+    if (copyPoints[i] > mostPoints) {
+      mostPoints = copyPoints[i]
+      mostPointsIndex = i
+    }
+  }
+
+  if (mostPoints === 0) {
+    return <p>None of the anecdotes have been voted yet!</p>
+  }
+  
+  return (
+    <div>
+      <h1>Most Voted Anecdote:</h1>
+      <Anecdote text={anecdotes[mostPointsIndex]} times={mostPoints}/>
+    </div>
     
   )
 }
@@ -48,9 +70,11 @@ const App = () => {
   
   return (
     <div>
+      <h1>Anecdote of the day:</h1>
       <Anecdote text={anecdotes[selected]} times={points[selected]}/>
       <Button onClick={pointsHandler} text="Vote this anecdote" />
       <Button onClick={randomAnecdote} text="Next anecdote" />
+      <MostVotesAnecdote anecdotes={anecdotes} points={points}/>
     </div>
   )
 }
