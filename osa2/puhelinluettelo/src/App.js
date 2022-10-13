@@ -32,6 +32,7 @@ const App = () => {
     }
     setNewName('')
     setNewNumber('')
+    setFilteredPersons('')
   }
 
   const handlePersonChange = (event) => {
@@ -46,7 +47,6 @@ const App = () => {
     setFilteredPersons(persons.filter((person) => 
       person.name.toLowerCase().includes(event.target.value.toLowerCase())))
     
-    console.log(filteredPersons)
   }
 
   return (
