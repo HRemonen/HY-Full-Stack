@@ -21,7 +21,7 @@ const Course = ({ course }) => {
                         exercises={part.exercises} 
                     />)}
             </ul>
-            <p>Total of { totalExercises } exercises</p>
+            <b>Total of { totalExercises } exercises</b>
         </>
     )
 }
