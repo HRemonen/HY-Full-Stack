@@ -7,6 +7,10 @@ const Part = ({ name, exercises }) => {
 }
 
 const Course = ({ course }) => {
+    const totalExercises = course.parts.reduce(
+        (previous, current) => previous + current.exercises, 0
+    )
+
     return (
         <>
             <h1>{course.name}</h1>
@@ -17,10 +21,9 @@ const Course = ({ course }) => {
                         exercises={part.exercises} 
                     />)}
             </ul>
-            
+            <p>Total of { totalExercises } exercises</p>
         </>
     )
-    
 }
 
 export default Course
