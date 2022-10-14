@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filteredPersons, setFilteredPersons] = useState('')
 
+  //get all persons from the server
   const getPersonsHook = () => {
     console.log("Getting person data from server")
     personService
@@ -23,6 +24,7 @@ const App = () => {
   }
 
   useEffect(getPersonsHook, [])
+
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -44,15 +46,34 @@ const App = () => {
     
     else {
       personService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson))
-      })
+        .create(personObject)
+        .then(returnedPersons => {
+          setPersons(persons.concat(returnedPersons))
+        })
     }
     setNewName('')
     setNewNumber('')
     setFilteredPersons('')
   }
+
+
+  const deletePerson = (name, id) => {
+    console.log('Attempting to delete:', name)
+
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      
+      //Confirmed, delete from server
+      personService
+        .del(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id != id))
+          console.log("Deleted (name, id):", name, id)
+        })
+    }
+    setFilteredPersons('')
+  }
+
+  //Handlers
 
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
@@ -84,6 +105,7 @@ const App = () => {
         <ShowPersons 
           persons={persons}
           filtered={filteredPersons}
+          handleDelete={deletePerson}
         />
     </div>
   )
