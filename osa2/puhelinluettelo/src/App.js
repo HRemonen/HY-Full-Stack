@@ -41,7 +41,13 @@ const App = () => {
     else if (persons.some(person => 
       person.name.toLowerCase() === 
       personObject.name.toLowerCase())) {
-        alert(`${personObject.name} is already added to phonebook.`)
+        console.log('Person in phonebook already')
+        if (window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)) {
+            const getPerson = persons.find(person => 
+              person.name.toLowerCase() === personObject.name.toLowerCase())
+      
+            updatePerson(getPerson, newNumber)
+          }
     } 
     
     else {
@@ -56,7 +62,6 @@ const App = () => {
     setFilteredPersons('')
   }
 
-
   const deletePerson = (name, id) => {
     console.log('Attempting to delete:', name)
 
@@ -70,6 +75,26 @@ const App = () => {
           console.log("Deleted (name, id):", name, id)
         })
     }
+    setFilteredPersons('')
+  }
+
+  const updatePerson = (person, number) => {
+    console.log("Attempting to update (name, number): ", person.name, number)
+
+    const updatedPerson = {
+      name: person.name,
+      number
+    }
+    personService
+      .update(person.id, updatedPerson)
+      .then(response => {
+        setPersons(persons.map(oldPerson => (
+          oldPerson.name === updatedPerson.name
+          ? response
+          : oldPerson
+        )))
+        console.log(`Updated number of ${person.name} to ${number}`)
+      })
     setFilteredPersons('')
   }
 
@@ -109,7 +134,6 @@ const App = () => {
         />
     </div>
   )
-
 }
 
 export default App
