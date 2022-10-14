@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+
+import personService from './services/personService'
 
 import ShowPersons from './components/ShowPersons'
 import AddPerson from './components/AddPerson'
@@ -11,17 +12,17 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filteredPersons, setFilteredPersons] = useState('')
 
-  const hook = () => {
-    console.log("Getting promise")
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response => {
-        console.log('Promise fullfilled')
-        setPersons(response.data)
+  const getPersonsHook = () => {
+    console.log("Getting person data from server")
+    personService
+      .getAll()
+      .then(initialPersons => {
+        console.log('Fetched Person data from server succesfully')
+        setPersons(initialPersons)
       })
   }
 
-  useEffect(hook, [])
+  useEffect(getPersonsHook, [])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -30,14 +31,23 @@ const App = () => {
       name: newName,
       number: newNumber
     }
+
     if (personObject.name === "") {
       alert(`Empty string is not valid input.`)
-    } else if (persons.some(person => 
+    } 
+    
+    else if (persons.some(person => 
       person.name.toLowerCase() === 
       personObject.name.toLowerCase())) {
         alert(`${personObject.name} is already added to phonebook.`)
-    } else {
-      setPersons(persons.concat(personObject))
+    } 
+    
+    else {
+      personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+      })
     }
     setNewName('')
     setNewNumber('')
