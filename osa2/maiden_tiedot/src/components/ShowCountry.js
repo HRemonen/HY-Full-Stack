@@ -1,7 +1,10 @@
+import Weather from "./Weather"
+
 const Language = ({ language }) => <li> {language.name} </li>
 
 const ShowCountry = ({ country }) => {
-    console.log('valuess', Object.values(country[0].languages))
+    console.log('Langs:', Object.values(country[0].languages))
+    console.log("Latidute:", country[0].latlng[0], "Longitude:", country[0].latlng[1])
     return (
         <div>
             <h3>{country[0].name}</h3>
@@ -15,6 +18,11 @@ const ShowCountry = ({ country }) => {
                 })}
             </ul>
             <img src={country[0].flag} alt='Country flag' widht='175' height='125' />
+
+
+            <Weather
+                capital={country[0].capital}
+                location={country[0].latlng} />
         </div>
     )
 }
