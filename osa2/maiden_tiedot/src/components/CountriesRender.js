@@ -1,6 +1,6 @@
 import ShowCountry from "./ShowCountry"
 
-const CountriesRender = ({ countries }) => {
+const CountriesRender = ({ countries, handleClick }) => {
     if (!Array.isArray(countries) || !countries.length) {
         return (
             <p>No matching country found.</p>
@@ -22,7 +22,10 @@ const CountriesRender = ({ countries }) => {
     return (
         <ul>
             {countries.map(country =>
-                <li key={country.name}>{country.name}</li>)}
+                <li key={country.name}>{country.name} 
+                    <button onClick={handleClick} country={country.name}>Show info</button>
+                </li>
+            )}
         </ul>
     )
 }

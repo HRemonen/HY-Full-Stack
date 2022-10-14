@@ -27,11 +27,22 @@ const App = () => {
   )
 
   console.log('Filtered countries: ', filteredCountries)
+  
+  const handleShowCoutry = (event) => {
+    console.log('Clicked', event.target.attributes.country.nodeValue)
+
+    const countryObject = event.target.attributes.country.nodeValue
+    setFilterCountry(countryObject) 
+  }
 
   return (
     <div>
       Search countries: <input value={filterCountry} onChange={handleFilterChange} />
-      {filteredCountries.length > 0 && <CountriesRender countries={filteredCountries} />}
+      {filteredCountries.length > 0 && 
+        <CountriesRender 
+          countries={filteredCountries}
+          handleClick={handleShowCoutry} 
+        />}
     </div>
   )
 
