@@ -14,6 +14,7 @@ const App = () => {
   const [filteredPersons, setFilteredPersons] = useState('')
 
   const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
 
   //get all persons from the server
   const getPersonsHook = () => {
@@ -58,9 +59,12 @@ const App = () => {
         .create(personObject)
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
+
           setMessage(`Added person '${personObject.name}' to the Phonebook`)
+          setMessageType('success-msg')
           setTimeout(() => {
             setMessage(null)
+            setMessageType(null)
           }, 5000);
         })
     }
@@ -80,10 +84,24 @@ const App = () => {
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
           console.log("Deleted (name, id):", name, id)
+
           setMessage(`Deleted the person '${name}' from the Phonebook`)
+          setMessageType('warning-msg')
           setTimeout(() => {
               setMessage(null)
+              setMessageType(null)
             }, 5000);
+        })
+        .catch(error => {
+          console.log("Error occured while deleting (name, id, error) from the server:", name, id, error)
+
+          setMessage(`Person '${name}' has been already deleted from the Phonebook`)
+          setMessageType('error-msg')
+          setTimeout(() => {
+            setMessage(null)
+            setMessageType(null)
+          }, 5000);
+          setPersons(persons.filter(person => person.id !== id))
         })
     }
     setFilteredPersons('')
@@ -104,11 +122,14 @@ const App = () => {
           ? response
           : oldPerson
         )))
+        console.log(`Updated number of person ${person.name} to ${number}`)
+
         setMessage(`Updated the number of the person '${person.name}' to (${number})`)
+        setMessageType('success-msg')
         setTimeout(() => {
             setMessage(null)
+            setMessageType(null)
           }, 5000);
-        console.log(`Updated number of person ${person.name} to ${number}`)
       })
     setFilteredPersons('')
   }
@@ -131,7 +152,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <Notification message={message} />
+        <Notification message={message} type={messageType}/>
         <FilterPersons 
           handleFilterChange={handleFilterChange} />          
       <h3>Add a new person</h3>
