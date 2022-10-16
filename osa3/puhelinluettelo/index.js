@@ -54,31 +54,36 @@ app.get('/api/persons/:id', (request, response) => {
   })
 
 const generateId = () => {
-    const maxId = notes.length > 0
-      ? Math.max(...notes.map(n => n.id))
-      : 0
-    return maxId + 1
+    console.log('Generating random id')
+    return Math.floor(Math.random() * 9999999)
 }
   
-app.post('/api/notes', (request, response) => {
+app.post('/api/persons', (request, response) => {
     const body = request.body
   
-    if (!body.content) {
+    if (!body.name || !body.number) {
         return response.status(400).json({ 
-            error: 'content missing' 
+            error: 'Person info missing' 
         })
-    }   
+    }
+
+    else if (persons.some(person => 
+        person.name.toLowerCase() === body.name.toLowerCase())) {
+            console.log(`Person named ${body.name} already in phonebook`)
+            return response.status(409).json({
+                error: `Person named ${body.name} already in phonebook`
+            })
+        }
   
-    const note = {
-        content: body.content,
-        important: body.important || false,
-        date: new Date(),
+    const newPerson = {
         id: generateId(),
+        name: body.name,
+        number: body.number || false
     }
   
-    notes = notes.concat(note)
+    persons = persons.concat(newPerson)
   
-    response.json(note)
+    response.json(newPerson)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
