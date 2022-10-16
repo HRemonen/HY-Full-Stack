@@ -1,8 +1,21 @@
 const { response, request } = require('express')
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+
+
+//Setting the post token for morgan.
+morgan.token('post', function (request, response) {
+    if (request.method === 'POST') {
+        return JSON.stringify(request.body)
+    }
+    return ""
+})
+
+//Tiny formatting + post token
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
 
 let persons = [
   {
@@ -27,18 +40,18 @@ let persons = [
   }
 
 ]
-app.get('/', (req, res) => {
-    res.send('<h1>Phonebook!</h1>')
+app.get('/', (request, response) => {
+    response.send('<h1>Phonebook!</h1>')
 })
 
-app.get('/info', (req, res) => {
+app.get('/info', (request, response) => {
     const time = new Date()
 
-    res.send(`<p>Phonebook has info for ${persons.length} people </br> ${time} </p>`)
+    response.send(`<p>Phonebook has info for ${persons.length} people </br> ${time} </p>`)
 })
   
-app.get('/api/persons', (req, res) => {
-    res.json(persons)
+app.get('/api/persons', (request, response) => {
+    response.json(persons)
 })
 
 app.get('/api/persons/:id', (request, response) => {
