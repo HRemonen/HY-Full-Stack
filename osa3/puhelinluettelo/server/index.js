@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
@@ -7,7 +9,7 @@ const Person = require('./models/person')
 
 const app = express()
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
@@ -27,14 +29,12 @@ morgan.token('post', function (request, response) {
 //Tiny formatting + post token
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
 
-
 app.get('/', (request, response) => {
     response.send('<h1>Phonebook!</h1>')
 })
 
 app.get('/info', (request, response) => {
     const time = new Date()
-
     response.send(`<p>Phonebook has info for ${persons.length} people </br> ${time} </p>`)
 })
   
@@ -48,21 +48,16 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = +request.params.id
-    const person = persons.find(note => note.id === id)
+    Person.findById(request.params.id)
+        .then(person => {
+            response.json(person) 
+        })
+        .catch(error => {
+            console.log('ID not valid')
+            response.status(404).end()
+        })
+})
 
-    if (person) {
-        response.json(person)
-    }
-    else {
-        response.status(404).end()
-    }
-  })
-
-const generateId = () => {
-    console.log('Generating random id')
-    return Math.floor(Math.random() * 9999999)
-}
   
 app.post('/api/persons', (request, response) => {
     const body = request.body
@@ -73,6 +68,7 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
+    /*
     else if (persons.some(person => 
         person.name.toLowerCase() === body.name.toLowerCase())) {
             console.log(`Person named ${body.name} already in phonebook`)
@@ -80,16 +76,17 @@ app.post('/api/persons', (request, response) => {
                 error: `Person named ${body.name} already in phonebook`
             })
         }
-  
-    const newPerson = {
-        id: generateId(),
+    */
+
+    const person = new Person({
         name: body.name,
-        number: body.number || false
-    }
+        number: body.number
+    })
   
-    persons = persons.concat(newPerson)
+    person.save().then(newPerson => {
+        response.json(newPerson)
+    })
   
-    response.json(newPerson)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
