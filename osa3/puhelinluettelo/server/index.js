@@ -1,8 +1,11 @@
-const { response, request } = require('express')
+const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
+const mongoose = require('mongoose')
+const { response, request } = require('express')
+const Person = require('./models/person')
+
 const app = express()
-const cors = require('cors')
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
@@ -24,29 +27,7 @@ morgan.token('post', function (request, response) {
 //Tiny formatting + post token
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
 
-let persons = [
-  {
-    id: 1,
-    name: "Arto Helas",
-    number: "040-123-123456"
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "111-1223123"
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "123-123123"
-  },
-  {
-    id: 4,
-    name: "Mary Poppendick",
-    number: "040112412"
-  }
 
-]
 app.get('/', (request, response) => {
     response.send('<h1>Phonebook!</h1>')
 })
@@ -58,7 +39,12 @@ app.get('/info', (request, response) => {
 })
   
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person
+        .find({})
+        .then(persons => {
+            console.log('Retriving person data from database')
+            response.json(persons)
+        })
 })
 
 app.get('/api/persons/:id', (request, response) => {
