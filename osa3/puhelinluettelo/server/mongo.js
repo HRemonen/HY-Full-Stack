@@ -20,27 +20,27 @@ const Person = mongoose.model('Person', personSchema)
 
 // Find and print every person in database
 if (process.argv.length === 3){
-    Person
-        .find({})
-        .then(persons => {
-            persons.forEach(person => {
-                console.log(person)
-            });
-            mongoose.connection.close()
-        })
+  Person
+    .find({})
+    .then(persons => {
+      persons.forEach(person => {
+        console.log(person)
+      })
+      mongoose.connection.close()
+    })
 }
 else if (process.argv.length < 6) {
-    const personObject = new Person({
-        name: process.argv[3],
-        number: process.argv[4],
-      })
-    
-    personObject.save().then(result => {
-        console.log(`Person ${personObject.name}, number ${personObject.number} added to Phonebook!`)
-      })
+  const personObject = new Person({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
+
+  personObject.save().then(() => {
+    console.log(`Person ${personObject.name}, number ${personObject.number} added to Phonebook!`)
+  })
 }
 else {
-    console.log('Check arguments! Given arguments too long.')
+  console.log('Check arguments! Given arguments too long.')
 }
 
 mongoose.connection.close()
