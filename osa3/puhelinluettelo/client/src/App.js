@@ -67,6 +67,16 @@ const App = () => {
             setMessageType(null)
           }, 5000);
         })
+        .catch(error => {
+          console.log("Error occured while adding (name, id, error) to the server:", error)
+
+          setMessage(error.response.data.error)
+          setMessageType('error-msg')
+          setTimeout(() => {
+            setMessage(null)
+            setMessageType(null)
+          }, 5000);
+        })
     }
     setNewName('')
     setNewNumber('')
@@ -92,8 +102,8 @@ const App = () => {
               setMessageType(null)
             }, 5000);
         })
-        .catch(error => {
-          console.log("Error occured while deleting (name, id, error) from the server:", name, id, error)
+        .catch(() => {
+          console.log("Error occured while deleting (name, id) from the server:", name, id)
 
           setMessage(`Person '${name}' has been already deleted from the Phonebook`)
           setMessageType('error-msg')
