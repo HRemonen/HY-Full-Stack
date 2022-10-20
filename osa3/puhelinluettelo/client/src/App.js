@@ -33,34 +33,32 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const personObject = {
+    const newPerson = {
       name: newName,
       number: newNumber
     }
 
-    if (personObject.name === "") {
+    if (newPerson.name === "") {
       alert(`Empty string is not valid input.`)
     } 
-    
     else if (persons.some(person => 
       person.name.toLowerCase() === 
-      personObject.name.toLowerCase())) {
+      newPerson.name.toLowerCase())) {
         console.log('Person in phonebook already')
-        if (window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)) {
+        if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
             const getPerson = persons.find(person => 
-              person.name.toLowerCase() === personObject.name.toLowerCase())
+              person.name.toLowerCase() === newPerson.name.toLowerCase())
       
             updatePerson(getPerson, newNumber)
           }
     } 
-    
     else {
       personService
-        .create(personObject)
+        .create(newPerson)
         .then(returnedPersons => {
           setPersons(persons.concat(returnedPersons))
 
-          setMessage(`Added person '${personObject.name}' to the Phonebook`)
+          setMessage(`Added person '${newPerson.name}' to the Phonebook`)
           setMessageType('success-msg')
           setTimeout(() => {
             setMessage(null)
@@ -68,7 +66,7 @@ const App = () => {
           }, 5000);
         })
         .catch(error => {
-          console.log("Error occured while adding (name, id, error) to the server:", error)
+          console.log(`Error occured while adding (${newPerson.name}, ${newPerson.number}) to the server:`, error.message)
 
           setMessage(error.response.data.error)
           setMessageType('error-msg')
@@ -84,16 +82,15 @@ const App = () => {
   }
 
   const deletePerson = (name, id) => {
-    console.log('Attempting to delete:', name)
+    console.log(`Attempting to delete ${name}`)
 
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      
       //Confirmed, delete from server
       personService
         .del(id)
         .then(() => {
           setPersons(persons.filter(person => person.id !== id))
-          console.log("Deleted (name, id):", name, id)
+          console.log(`Deleted (${name}, ${id})`)
 
           setMessage(`Deleted the person '${name}' from the Phonebook`)
           setMessageType('warning-msg')
@@ -102,8 +99,8 @@ const App = () => {
               setMessageType(null)
             }, 5000);
         })
-        .catch(() => {
-          console.log("Error occured while deleting (name, id) from the server:", name, id)
+        .catch(error => {
+          console.log(`Error occured while deleting (${name}, ${id}) from the server:`, error.message)
 
           setMessage(`Person '${name}' has been already deleted from the Phonebook`)
           setMessageType('error-msg')
@@ -118,7 +115,7 @@ const App = () => {
   }
 
   const updatePerson = (person, number) => {
-    console.log("Attempting to update (name, number): ", person.name, number)
+    console.log(`Attempting to update (${person.name}, ${number})`)
 
     const updatedPerson = {
       name: person.name,
@@ -140,6 +137,16 @@ const App = () => {
             setMessage(null)
             setMessageType(null)
           }, 5000);
+      })
+      .catch(error => {
+        console.log(`Error occured while updating (${person.name}, ${person.number}) to the server:`, error.message)
+
+        setMessage(error.response.data.error)
+        setMessageType('error-msg')
+        setTimeout(() => {
+          setMessage(null)
+          setMessageType(null)
+        }, 5000);
       })
     setFilteredPersons('')
   }

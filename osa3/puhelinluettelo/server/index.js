@@ -29,6 +29,10 @@ morgan.token('post', function (request, response) {
 //Tiny formatting + post token
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
 
+
+
+
+
 app.get('/', (request, response) => {
     response.send('<h1>Phonebook!</h1>')
 })
@@ -62,7 +66,6 @@ app.get('/api/persons/:id', (request, response, next) => {
         })
         .catch(error => next(error))
 })
-
   
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
@@ -111,6 +114,14 @@ app.delete('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
+
+
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: "unknown endpoint" });
+  };
+  
+app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
 
