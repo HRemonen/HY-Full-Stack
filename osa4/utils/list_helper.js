@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
     return 1
 }
@@ -15,10 +17,31 @@ const favoriteBlog = (blogs) => {
     })[0]
 }
 
+const mostBlogs = (blogs) => {
+    authors = new Map()
+
+    if (!blogs || blogs.length === 0) return undefined
+
+    blogs.map(o => {
+        if (authors.has(o.author)) {
+            authors.set(o.author, authors.get(o.author) + 1)
+        }
+        else {
+            authors.set(o.author, 1)
+        }
+    })
+
+    const authorWithMostPosts = [...authors.entries()].reduce((a, b) => b[1] > a[1] ? b : a)
+
+    return {author: authorWithMostPosts[0],
+            blogs: authorWithMostPosts[1]}
+}
+
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
   }
 
 
@@ -73,6 +96,12 @@ const biggerListOfBlogs = [
     }  
 ]
 
-console.log('Favorites:', favoriteBlog(biggerListOfBlogs))
+console.log(mostBlogs([    {
+    _id: "5a422a851b54a676234d17f7",
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 7,
+    __v: 0
+  }]))
 
-console.log('Empty', favoriteBlog([]))
