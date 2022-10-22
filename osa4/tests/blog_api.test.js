@@ -1,73 +1,117 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+const helper = require('./test_helper')
 const Blog = require('../models/blog')
-
 const api = supertest(app)
-
-const initialBlogs = [
-  {
-    title: 'React patterns',
-    author: 'Michael Chan',
-    url: 'https://reactpatterns.com/',
-    likes: 7,
-  },
-  {
-    title: 'Go To Statement Considered Harmful',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
-    likes: 5,
-  },
-  {
-    title: 'Canonical string reduction',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-    likes: 12,
-  },
-  {
-    title: 'First class tests',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-    likes: 10,
-  },
-  {
-    title: 'TDD harms architecture',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
-  },
-  {
-    title: 'Type wars',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-    likes: 2,
-  }
-]
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  await Blog.insertMany(initialBlogs)
+  await Blog.insertMany(helper.initialBlogs)
 })
 
-test('blogs are returned as JSON', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-type', /application\/json/)
+describe('GET method tests', () => {
+  test('blogs are returned as JSON', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+  })
+  
+  test('all blogs are returned', async () => {
+    const response = await helper.blogsInDb()
+  
+    expect(response).toHaveLength(helper.initialBlogs.length)
+  })
+  
+  test('a specific blog is within the returned blogs', async () => {
+    const response = await helper.blogsInDb()
+  
+    const titles = response.map(o => o.title)
+  
+    expect(titles).toContain('Canonical string reduction')
+  })
+
+  test('blog id is in correct form', async () => {
+    const response = await helper.blogsInDb()
+
+    const allIds = response.map(blog => blog.id)
+    allIds.map(id => expect(id).toBeDefined())
+  })
 })
 
-test('all blogs are returned', async () => {
-  const response = await api.get('/api/blogs')
 
-  expect(response.body).toHaveLength(initialBlogs.length)
-})
+describe('POST method tests', () => {
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'Post Test',
+      author: 'Post Test',
+      url: 'https://post-test.com/',
+      likes: 99,
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-type', /application\/json/)
+  
+    const response = await helper.blogsInDb()
+  
+    const titles = response.map(o => o.title)
+  
+    expect(response).toHaveLength(helper.initialBlogs.length + 1)
+    expect(titles).toContain(newBlog.title)
+  })
+  
+  test('blog posted without likes is given the default value', async () => {
+    const newBlog = {
+      title: 'Post Test',
+      author: 'Post Test',
+      url: 'https://post-test.com/'
+    }
 
-test('a specific blog is within the returned blogs', async () => {
-  const response = await api.get('/api/blogs')
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
 
-  const titles = response.body.map(o => o.title)
+    const response = await helper.blogsInDb()
+    expect(response).toHaveLength(helper.initialBlogs.length + 1)
+    expect(response[response.length - 1].likes).toBe(0)
+  })
 
-  expect(titles).toContain('Canonical string reduction')
+  test('invalid blog without title cannot be added', async () => {
+    const newBlog = {
+      url: 'https://post-test.com/',
+      likes: 99,
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  
+    const response = await helper.blogsInDb()
+  
+    expect(response).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('invalid blog without url cannot be added', async () => {
+    const newBlog = {
+      title: 'Post Test',
+      likes: 99,
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  
+    const response = await helper.blogsInDb()
+  
+    expect(response).toHaveLength(helper.initialBlogs.length)
+  })
 })
 
 afterAll(() => {
