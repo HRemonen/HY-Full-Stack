@@ -8,6 +8,7 @@ test('dummy returns one', () => {
 })
 
 describe('total likes', () => {
+
   const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
@@ -86,6 +87,7 @@ describe('total likes', () => {
 })
 
 describe('favorite blog', () => {
+
   const biggerListOfBlogs = [
     {
       _id: '5a422a851b54a676234d17f7',
