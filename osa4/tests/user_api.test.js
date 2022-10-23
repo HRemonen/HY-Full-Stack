@@ -60,13 +60,16 @@ describe('when there is initially one user at db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
+})
+
+describe('when user gives invalid values', () => {
 
   test('creation fails with too short username', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'a',
-      name: 'Aaaaaaa',
+      username: 's',
+      name: 'Too short username',
       password: 'salainen',
     }
 
@@ -82,12 +85,33 @@ describe('when there is initially one user at db', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 
+  test('creation fails with undefined username', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: undefined,
+      name: 'Undef username',
+      password: 'salainen',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('username must be given and of allowed type!')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
   test('creation fails with too short password', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'aaaaaaa',
-      name: 'Aaaaaaa',
+      username: 'Too short password',
+      name: 'Short pass',
       password: 'ss',
     }
 
@@ -98,6 +122,27 @@ describe('when there is initially one user at db', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(result.body.error).toContain('password must be atleast 3 characters long!')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('creation fails with undefined password', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'Test undefined password',
+      name: 'Undef',
+      password: undefined,
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('password must be given and of allowed type!')
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)

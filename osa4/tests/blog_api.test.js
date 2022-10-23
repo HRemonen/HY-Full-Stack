@@ -11,6 +11,7 @@ beforeEach(async () => {
 })
 
 describe('GET method tests', () => {
+
   test('blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
@@ -41,6 +42,7 @@ describe('GET method tests', () => {
 })
 
 describe('POST method tests', () => {
+
   test('a valid blog can be added', async () => {
     const newBlog = {
       title: 'Post Test',
@@ -114,6 +116,7 @@ describe('POST method tests', () => {
 })
 
 describe('DELETE method tests', () => {
+
   test('raise 404 when no id is given, no blogs are deleted', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
 
@@ -158,6 +161,7 @@ describe('DELETE method tests', () => {
 })
 
 describe('PUT method tests', () => {
+  
   test('raise 404 when no id is given, no blogs are updated', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
 
