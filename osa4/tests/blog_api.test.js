@@ -40,7 +40,6 @@ describe('GET method tests', () => {
   })
 })
 
-
 describe('POST method tests', () => {
   test('a valid blog can be added', async () => {
     const newBlog = {
@@ -115,6 +114,31 @@ describe('POST method tests', () => {
 })
 
 describe('DELETE method tests', () => {
+  test('raise 404 when no id is given, no blogs are deleted', async () => {
+    const blogsBeforeDeletion = await helper.blogsInDb()
+
+    await api
+      .delete('/api/blogs/')
+      .expect(404)
+
+    const blogsAfterDeletion = await helper.blogsInDb()
+
+    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
+  })
+
+  test('raise 400 when id not found, no blogs are deleted', async () => {
+    const blogsBeforeDeletion = await helper.blogsInDb()
+    const id = "635540269a794217ed1"
+
+    await api
+      .delete(`/api/blogs/${id}`)
+      .expect(400)
+
+    const blogsAfterDeletion = await helper.blogsInDb()
+
+    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
+  })
+
   test('succeeds with status code 204 if valid id was given', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
     const blogToDelete = blogsBeforeDeletion[0]
