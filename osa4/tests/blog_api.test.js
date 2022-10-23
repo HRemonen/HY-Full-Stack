@@ -157,6 +157,55 @@ describe('DELETE method tests', () => {
   })
 })
 
+describe('PUT method tests', () => {
+  test('raise 404 when no id is given, no blogs are updated', async () => {
+    const blogsBeforeDeletion = await helper.blogsInDb()
+
+    await api
+      .put('/api/blogs/')
+      .expect(404)
+
+    const blogsAfterDeletion = await helper.blogsInDb()
+
+    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
+  })
+
+  test('raise 400 when id not found, no blogs are updated', async () => {
+    const blogsBeforeDeletion = await helper.blogsInDb()
+    const id = "635540269a794217ed1"
+
+    await api
+      .put(`/api/blogs/${id}`)
+      .expect(400)
+
+    const blogsAfterDeletion = await helper.blogsInDb()
+
+    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
+  })
+
+  test('succeeds with status code 200 if valid id was given', async () => {
+    const blogsBeforeUpdate = await helper.blogsInDb()
+    const blogToUpdate = blogsBeforeUpdate[0]
+    blogToUpdate.likes = 9999
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+      
+    const blogsAfterUpdate= await helper.blogsInDb()
+
+    expect(blogsAfterUpdate).toHaveLength(blogsBeforeUpdate.length)
+
+    const blogTitles = blogsAfterUpdate.map(o => o.title)
+
+    expect(blogTitles).toContain(blogToUpdate.title)
+
+    expect(blogToUpdate.likes).toEqual(9999)
+  })
+  
+})
 afterAll(() => {
   mongoose.connection.close()
 })
