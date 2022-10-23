@@ -17,18 +17,18 @@ describe('GET method tests', () => {
       .expect(200)
       .expect('Content-type', /application\/json/)
   })
-  
+
   test('all blogs are returned', async () => {
     const response = await helper.blogsInDb()
-  
+
     expect(response).toHaveLength(helper.initialBlogs.length)
   })
-  
+
   test('a specific blog is within the returned blogs', async () => {
     const response = await helper.blogsInDb()
-  
+
     const titles = response.map(o => o.title)
-  
+
     expect(titles).toContain('Canonical string reduction')
   })
 
@@ -48,21 +48,21 @@ describe('POST method tests', () => {
       url: 'https://post-test.com/',
       likes: 99,
     }
-  
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
       .expect('Content-type', /application\/json/)
-  
+
     const response = await helper.blogsInDb()
-  
+
     const titles = response.map(o => o.title)
-  
+
     expect(response).toHaveLength(helper.initialBlogs.length + 1)
     expect(titles).toContain(newBlog.title)
   })
-  
+
   test('blog posted without likes is given the default value', async () => {
     const newBlog = {
       title: 'Post Test',
@@ -85,14 +85,14 @@ describe('POST method tests', () => {
       url: 'https://post-test.com/',
       likes: 99,
     }
-  
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
-  
+
     const response = await helper.blogsInDb()
-  
+
     expect(response).toHaveLength(helper.initialBlogs.length)
   })
 
@@ -101,14 +101,14 @@ describe('POST method tests', () => {
       title: 'Post Test',
       likes: 99,
     }
-  
+
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
-  
+
     const response = await helper.blogsInDb()
-  
+
     expect(response).toHaveLength(helper.initialBlogs.length)
   })
 })
@@ -128,7 +128,7 @@ describe('DELETE method tests', () => {
 
   test('raise 400 when id not found, no blogs are deleted', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
-    const id = "635540269a794217ed1"
+    const id = '635540269a794217ed1'
 
     await api
       .delete(`/api/blogs/${id}`)
@@ -146,7 +146,7 @@ describe('DELETE method tests', () => {
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
       .expect(204)
-      
+
     const blogsAfterDeletion = await helper.blogsInDb()
 
     expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length - 1)
@@ -172,7 +172,7 @@ describe('PUT method tests', () => {
 
   test('raise 400 when id not found, no blogs are updated', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
-    const id = "635540269a794217ed1"
+    const id = '635540269a794217ed1'
 
     await api
       .put(`/api/blogs/${id}`)
@@ -193,7 +193,7 @@ describe('PUT method tests', () => {
       .send(blogToUpdate)
       .expect(200)
       .expect('Content-type', /application\/json/)
-      
+
     const blogsAfterUpdate= await helper.blogsInDb()
 
     expect(blogsAfterUpdate).toHaveLength(blogsBeforeUpdate.length)
@@ -204,7 +204,7 @@ describe('PUT method tests', () => {
 
     expect(blogToUpdate.likes).toEqual(9999)
   })
-  
+
 })
 afterAll(() => {
   mongoose.connection.close()
