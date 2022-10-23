@@ -114,6 +114,25 @@ describe('POST method tests', () => {
   })
 })
 
+describe('DELETE method tests', () => {
+  test('succeeds with status code 204 if valid id was given', async () => {
+    const blogsBeforeDeletion = await helper.blogsInDb()
+    const blogToDelete = blogsBeforeDeletion[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+      
+    const blogsAfterDeletion = await helper.blogsInDb()
+
+    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length - 1)
+
+    const blogTitles = blogsAfterDeletion.map(o => o.title)
+
+    expect(blogTitles).not.toContain(blogToDelete.title)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
