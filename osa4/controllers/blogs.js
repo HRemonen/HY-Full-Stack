@@ -39,17 +39,24 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
+  const user = request.user
 
-  const blog = {
-    url: body.url,
-    title: body.title,
-    author: body.author,
-    likes: body.likes
+  const blogToUpdate = await Blog.findById(request.params.id)
+
+  if (user.id.toString() === blogToUpdate.user.toString()) {
+    const blog = {
+      url: body.url,
+      title: body.title,
+      author: body.author,
+      likes: body.likes
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+
+    return response.status(204).json(updatedBlog)
   }
-
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-
-  response.json(updatedBlog)
+  
+  return response.status(401).json({error: 'unauthorized action'})
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
@@ -62,8 +69,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     return response.status(204).end()
   }
   
-  return response.status(403).json({error: 'unauthorized action'})
-  
+  return response.status(401).json({error: 'unauthorized action'})
 })
 
 module.exports = blogsRouter
