@@ -1,9 +1,29 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const supertest = require('supertest')
+const jwt = require('jsonwebtoken')
+
 const app = require('../app')
+const api = supertest(app)
+
 const helper = require('./test_helper')
 const Blog = require('../models/blog')
-const api = supertest(app)
+const User = require('../models/user')
+
+let headers
+
+beforeEach(async () => {
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('sekret', 10)
+  const user = await new User({ username: 'root', passwordHash })
+
+  await user.save()
+
+  const userToken = jwt.sign({username: 'root', id: user.id}, process.env.SECRET)
+
+  return (headers = userToken)
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -15,6 +35,7 @@ describe('GET method tests', () => {
   test('blogs are returned as JSON', async () => {
     await api
       .get('/api/blogs')
+      .set("Authorization", `Bearer ${headers}`)
       .expect(200)
       .expect('Content-type', /application\/json/)
   })
@@ -53,6 +74,7 @@ describe('POST method tests', () => {
 
     await api
       .post('/api/blogs')
+      .set("Authorization", `Bearer ${headers}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-type', /application\/json/)
@@ -74,6 +96,7 @@ describe('POST method tests', () => {
 
     await api
       .post('/api/blogs')
+      .set("Authorization", `Bearer ${headers}`)
       .send(newBlog)
       .expect(201)
 
@@ -90,6 +113,7 @@ describe('POST method tests', () => {
 
     await api
       .post('/api/blogs')
+      .set("Authorization", `Bearer ${headers}`)
       .send(newBlog)
       .expect(400)
 
@@ -106,6 +130,7 @@ describe('POST method tests', () => {
 
     await api
       .post('/api/blogs')
+      .set("Authorization", `Bearer ${headers}`)
       .send(newBlog)
       .expect(400)
 
@@ -122,6 +147,7 @@ describe('DELETE method tests', () => {
 
     await api
       .delete('/api/blogs/')
+      .set("Authorization", `Bearer ${headers}`)
       .expect(404)
 
     const blogsAfterDeletion = await helper.blogsInDb()
@@ -135,6 +161,7 @@ describe('DELETE method tests', () => {
 
     await api
       .delete(`/api/blogs/${id}`)
+      .set("Authorization", `Bearer ${headers}`)
       .expect(400)
 
     const blogsAfterDeletion = await helper.blogsInDb()
@@ -142,31 +169,16 @@ describe('DELETE method tests', () => {
     expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
   })
 
-  test('succeeds with status code 204 if valid id was given', async () => {
-    const blogsBeforeDeletion = await helper.blogsInDb()
-    const blogToDelete = blogsBeforeDeletion[0]
-
-    await api
-      .delete(`/api/blogs/${blogToDelete.id}`)
-      .expect(204)
-
-    const blogsAfterDeletion = await helper.blogsInDb()
-
-    expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length - 1)
-
-    const blogTitles = blogsAfterDeletion.map(o => o.title)
-
-    expect(blogTitles).not.toContain(blogToDelete.title)
-  })
 })
 
 describe('PUT method tests', () => {
-  
+
   test('raise 404 when no id is given, no blogs are updated', async () => {
     const blogsBeforeDeletion = await helper.blogsInDb()
 
     await api
       .put('/api/blogs/')
+      .set("Authorization", `Bearer ${headers}`)
       .expect(404)
 
     const blogsAfterDeletion = await helper.blogsInDb()
@@ -180,33 +192,12 @@ describe('PUT method tests', () => {
 
     await api
       .put(`/api/blogs/${id}`)
+      .set("Authorization", `Bearer ${headers}`)
       .expect(400)
 
     const blogsAfterDeletion = await helper.blogsInDb()
 
     expect(blogsAfterDeletion).toHaveLength(blogsBeforeDeletion.length)
-  })
-
-  test('succeeds with status code 200 if valid id was given', async () => {
-    const blogsBeforeUpdate = await helper.blogsInDb()
-    const blogToUpdate = blogsBeforeUpdate[0]
-    blogToUpdate.likes = 9999
-
-    await api
-      .put(`/api/blogs/${blogToUpdate.id}`)
-      .send(blogToUpdate)
-      .expect(200)
-      .expect('Content-type', /application\/json/)
-
-    const blogsAfterUpdate= await helper.blogsInDb()
-
-    expect(blogsAfterUpdate).toHaveLength(blogsBeforeUpdate.length)
-
-    const blogTitles = blogsAfterUpdate.map(o => o.title)
-
-    expect(blogTitles).toContain(blogToUpdate.title)
-
-    expect(blogToUpdate.likes).toEqual(9999)
   })
 
 })
