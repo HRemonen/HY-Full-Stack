@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import RenderBlogs from './components/RenderBlogs'
+import Notification from './components/Notification'
 import Logout from './components/Logout'
 import CreateBlogForm from './components/CreateBlogForm'
 
@@ -14,6 +15,12 @@ const App = () => {
 
   const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage(null)
+      setMessageType(null)
+    }, 5000)
+  }, [message])
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -30,16 +37,19 @@ const App = () => {
     }
   }, [])
 
-
   const handleBlogCreation = async (blog) => {
     console.log(`Creating new blog: ${blog}`)
     
     try {
       await blogService.create(blog)
       setBlogs(blogs.concat(blog))
+
+      setMessage(`Added a new blog: '${blog.title}' by ${blog.author}`)
+      setMessageType('success-msg')
     }
     catch (exception) {
-      console.log('Something went wrong creating new blog')
+      setMessage("Blog creation failed, check all values")
+      setMessageType('error-msg')
     }
   }
 
@@ -55,9 +65,13 @@ const App = () => {
       )
       setUser(user)
       blogService.setToken(user.token)
+
+      setMessage(`Logged in as user: ${user.name}`)
+      setMessageType('success-msg')
     }
     catch (exception) {
-      console.log('Wrong credentials!')
+      setMessage('Wrong username or password')
+      setMessageType('error-msg')
     }
   }
 
@@ -65,10 +79,13 @@ const App = () => {
     event.preventDefault()
     window.localStorage.removeItem('loggedUser')
     setUser(null)
+    setMessage('Successfully logged out')
+    setMessageType('warning-msg')
   }
 
   return (
     <div>
+      <Notification message={message} type={messageType}/>
       {user === null && 
         <LoginForm
           handleLogin={handleLogin}
