@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import LoginForm from './components/LoginForm'
 import RenderBlogs from './components/RenderBlogs'
 import Logout from './components/Logout'
+import CreateBlogForm from './components/CreateBlogForm'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -11,8 +12,6 @@ const App = () => {
   const [message, setMessage] = useState(null)
   const [messageType, setMessageType] = useState(null)
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
 
@@ -31,16 +30,20 @@ const App = () => {
     }
   }, [])
 
-  const handleUsernameInput = async (event) => {
-    setUsername(event.target.value)
+
+  const handleBlogCreation = async (blog) => {
+    console.log(`Creating new blog: ${blog}`)
+    
+    try {
+      await blogService.create(blog)
+      setBlogs(blogs.concat(blog))
+    }
+    catch (exception) {
+      console.log('Something went wrong creating new blog')
+    }
   }
 
-  const handlePasswordInput = async (event) => {
-    setPassword(event.target.value)
-  }
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (username, password) => {
     console.log(`Logging in user ${username}`)
 
     try {
@@ -62,29 +65,29 @@ const App = () => {
     event.preventDefault()
     window.localStorage.removeItem('loggedUser')
     setUser(null)
-    setUsername('')
-    setPassword('')
   }
 
   return (
     <div>
       {user === null && 
         <LoginForm
-          username={username}
-          password={password}
           handleLogin={handleLogin}
-          handleUsernameInput={handleUsernameInput}
-          handlePasswordInput={handlePasswordInput} 
-        />}
+        />
+      }
 
       {!(user === null) &&
         <>
           <Logout user={user} handleLogout={handleLogout} />
+          <h1>blogs</h1>
+          <CreateBlogForm
+            handleBlogCreation={handleBlogCreation}
+          />
           <RenderBlogs
             user={user}
             blogs={blogs}
           />
-          </>}
+        </>
+      }
     </div>
   )
 }
