@@ -37,7 +37,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       sortBlogs(blogs)
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const App = () => {
 
   const handleBlogCreation = async (blog) => {
     console.log(`Creating new blog: ${blog}`)
-    
+
     try {
       blogFormRef.current.toggleVisibility()
 
@@ -62,15 +62,15 @@ const App = () => {
       setMessageType('success-msg')
     }
     catch (exception) {
-      setMessage("Blog creation failed, check all values")
+      setMessage('Blog creation failed, check all values')
       setMessageType('error-msg')
     }
   }
 
   const handleBlogLike = async (blog) => {
     try {
-      blog = {...blog, likes: blog.likes + 1}
-      
+      blog = { ...blog, likes: blog.likes + 1 }
+
       const updatedBlog = await blogService.update(blog.id, blog)
       sortBlogs(blogs.map(oldBlog => {
         return oldBlog.id === updatedBlog.id
@@ -79,7 +79,7 @@ const App = () => {
       }))
     }
     catch (exception) {
-      setMessage("Something went wrong")
+      setMessage('Something went wrong')
       setMessageType('error-msg')
     }
   }
@@ -88,12 +88,12 @@ const App = () => {
     try {
       await blogService.remove(blog.id)
       sortBlogs(blogs.filter(oldBlog => oldBlog.id !== blog.id))
-      
-      setMessage(`Blog deleted successfully`)
+
+      setMessage('Blog deleted successfully')
       setMessageType('success-msg')
     }
     catch (exception) {
-      setMessage("Unauthorized user. Cannot delete this blog.")
+      setMessage('Unauthorized user. Cannot delete this blog.')
       setMessageType('error-msg')
     }
   }
@@ -127,7 +127,7 @@ const App = () => {
     setMessage('Successfully logged out')
     setMessageType('warning-msg')
   }
- 
+
 
   return (
     <div>
