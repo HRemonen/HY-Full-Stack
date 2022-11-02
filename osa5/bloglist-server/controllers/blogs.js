@@ -1,8 +1,6 @@
 const router = require('express').Router()
-const jwt = require('jsonwebtoken')
 
 const Blog = require('../models/blog')
-const User = require('../models/user')
 
 router.get('/', async (request, response) => {
   const notes = await Blog
@@ -18,7 +16,11 @@ router.post('/', async (request, response) => {
   }
 
   const user = request.user
-  const blog = new Blog({ ...request.body, user: user.id })
+  const blog = new Blog({
+    ...request.body,
+    user: user.id,
+    likes: request.body.likes || 0
+  })
 
   const savedBlog = await blog.save()
 
@@ -46,7 +48,14 @@ router.delete('/:id', async (request, response) => {
 })
 
 router.put('/:id', async (request, response) => {
-  const blog = request.body
+  const body = request.body
+
+  const blog = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes
+  }
 
   const updatedBlog = await Blog
     .findByIdAndUpdate(
@@ -54,7 +63,7 @@ router.put('/:id', async (request, response) => {
       blog,
       { new: true, runValidators: true, context: 'query' }
     )
-      
+
   response.json(updatedBlog)
 })
 

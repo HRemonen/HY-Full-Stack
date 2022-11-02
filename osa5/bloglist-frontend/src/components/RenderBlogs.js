@@ -1,10 +1,15 @@
 import Blog from './Blog'
 
-const RenderBlogs = ({ blogs }) => {
+const RenderBlogs = ({ user, blogs, handleBlogLike }) => {
   return (
     <div>
       {blogs.map(blog => 
-         <Blog key={blog.id} blog={blog} />
+         <Blog 
+            key={blog.id}
+            user={user}
+            blog={blog}
+            handleBlogLike={handleBlogLike}
+          />
       )}
       
     </div>

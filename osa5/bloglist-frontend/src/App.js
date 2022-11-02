@@ -45,7 +45,7 @@ const App = () => {
     
     try {
       blogFormRef.current.toggleVisibility()
-      
+
       const newBlog = await blogService.create(blog)
       setBlogs(blogs.concat(newBlog))
 
@@ -54,6 +54,24 @@ const App = () => {
     }
     catch (exception) {
       setMessage("Blog creation failed, check all values")
+      setMessageType('error-msg')
+    }
+  }
+
+  const handleBlogLike = async (blog) => {
+    try {
+      blog = {...blog, likes: blog.likes + 1}
+      
+      const updatedBlog = await blogService.update(blog.id, blog)
+      setBlogs(blogs.map(oldBlog => {
+        return oldBlog.id === updatedBlog.id
+          ? updatedBlog
+          : oldBlog
+      }))
+    }
+
+    catch (exception) {
+      setMessage("Something went wrong")
       setMessageType('error-msg')
     }
   }
@@ -111,6 +129,7 @@ const App = () => {
           <RenderBlogs
             user={user}
             blogs={blogs}
+            handleBlogLike={handleBlogLike}
           />
         </>
       }
