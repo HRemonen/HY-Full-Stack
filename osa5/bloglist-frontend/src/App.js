@@ -18,6 +18,15 @@ const App = () => {
 
   const blogFormRef = useRef()
 
+  //This helper function is used to sort the blogs.
+  //call this function rather than using the setBlogs directly.
+  const sortBlogs = (blogs) => {
+    const sortedBlogs = blogs.sort((a, b) => {
+      return b.likes - a.likes
+    })
+    setBlogs(sortedBlogs)
+  }
+
   useEffect(() => {
     setTimeout(() => {
       setMessage(null)
@@ -27,7 +36,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      sortBlogs(blogs)
     )  
   }, [])
 
@@ -47,7 +56,7 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
 
       const newBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(newBlog))
+      sortBlogs(blogs.concat(newBlog))
 
       setMessage(`Added a new blog: '${blog.title}' by ${blog.author}`)
       setMessageType('success-msg')
@@ -63,7 +72,7 @@ const App = () => {
       blog = {...blog, likes: blog.likes + 1}
       
       const updatedBlog = await blogService.update(blog.id, blog)
-      setBlogs(blogs.map(oldBlog => {
+      sortBlogs(blogs.map(oldBlog => {
         return oldBlog.id === updatedBlog.id
           ? updatedBlog
           : oldBlog
