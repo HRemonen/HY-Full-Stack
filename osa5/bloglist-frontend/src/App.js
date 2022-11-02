@@ -78,9 +78,22 @@ const App = () => {
           : oldBlog
       }))
     }
-
     catch (exception) {
       setMessage("Something went wrong")
+      setMessageType('error-msg')
+    }
+  }
+
+  const handleBlogDelete = async (blog) => {
+    try {
+      await blogService.remove(blog.id)
+      sortBlogs(blogs.filter(oldBlog => oldBlog.id !== blog.id))
+      
+      setMessage(`Blog deleted successfully`)
+      setMessageType('success-msg')
+    }
+    catch (exception) {
+      setMessage("Unauthorized user. Cannot delete this blog.")
       setMessageType('error-msg')
     }
   }
@@ -139,6 +152,7 @@ const App = () => {
             user={user}
             blogs={blogs}
             handleBlogLike={handleBlogLike}
+            handleBlogDelete={handleBlogDelete}
           />
         </>
       }

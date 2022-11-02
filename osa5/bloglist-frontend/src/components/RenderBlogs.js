@@ -1,6 +1,6 @@
 import Blog from './Blog'
 
-const RenderBlogs = ({ user, blogs, handleBlogLike }) => {
+const RenderBlogs = ({ user, blogs, handleBlogLike, handleBlogDelete }) => {
   return (
     <div>
       {blogs.map(blog => 
@@ -9,6 +9,7 @@ const RenderBlogs = ({ user, blogs, handleBlogLike }) => {
             user={user}
             blog={blog}
             handleBlogLike={handleBlogLike}
+            handleBlogDelete={handleBlogDelete}
           />
       )}
       

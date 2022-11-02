@@ -1,39 +1,42 @@
 import { useState } from 'react'
 
 
-const Blog = ({ user, blog, handleBlogLike }) => {
+const Blog = ({ user, blog, handleBlogLike, handleBlogDelete }) => {
   const [view, setView] = useState(false)
+  
+  const checkOwner = blog.user.id === user.id || blog.user === user.id
 
-  if (!view) {
+  const viewFullBlog = () => {
     return (
-      <div className='blogWrapper'>
-        <div>
-          <p onClick={() => setView(!view)}>
-            <b>{blog.title}</b>, by: {blog.author}
-          </p>
-        </div>
-      </div>  
+      <>
+      <p>
+        {blog.url} <br />
+        likes {blog.likes} 
+          <button 
+            onClick={() => handleBlogLike(blog)}>like
+          </button> <br />
+        {user?.name} <br />
+
+        {checkOwner &&
+          <button 
+            onClick={() => handleBlogDelete(blog)}>delete
+          </button>
+        }
+      </p>
+    </>
     )
   }
 
   return (
     <div className='blogWrapper'>
       <div>
-        <p>
+        <p onClick={() => setView(!view)}>
           <b onClick={() => setView(!view)}>{blog.title}</b>, by: {blog.author} <br />
-          {blog.url} <br />
-          likes {blog.likes} 
-            <button 
-              onClick={() => handleBlogLike(blog)}>like
-            </button> 
-            <br />
-          {user?.name}
         </p>
+        {view && viewFullBlog()}
       </div>
-    </div>
+    </div>  
   )
 }
-  
-
 
 export default Blog
