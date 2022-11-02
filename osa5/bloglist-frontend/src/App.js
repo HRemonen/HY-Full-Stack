@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
 import RenderBlogs from './components/RenderBlogs'
 import Notification from './components/Notification'
 import Logout from './components/Logout'
-import CreateBlogForm from './components/CreateBlogForm'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -14,6 +15,8 @@ const App = () => {
   const [messageType, setMessageType] = useState(null)
 
   const [user, setUser] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,8 +44,10 @@ const App = () => {
     console.log(`Creating new blog: ${blog}`)
     
     try {
-      await blogService.create(blog)
-      setBlogs(blogs.concat(blog))
+      blogFormRef.current.toggleVisibility()
+      
+      const newBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(newBlog))
 
       setMessage(`Added a new blog: '${blog.title}' by ${blog.author}`)
       setMessageType('success-msg')
@@ -82,11 +87,13 @@ const App = () => {
     setMessage('Successfully logged out')
     setMessageType('warning-msg')
   }
+ 
 
   return (
     <div>
       <Notification message={message} type={messageType}/>
-      {user === null && 
+
+      {user === null &&
         <LoginForm
           handleLogin={handleLogin}
         />
@@ -94,11 +101,13 @@ const App = () => {
 
       {!(user === null) &&
         <>
-          <Logout user={user} handleLogout={handleLogout} />
           <h1>blogs</h1>
-          <CreateBlogForm
-            handleBlogCreation={handleBlogCreation}
-          />
+          <Logout user={user} handleLogout={handleLogout} />
+          <Togglable buttonLabel='new blog' ref={blogFormRef}>
+            <BlogForm
+              handleBlogCreation={handleBlogCreation}
+            />
+          </Togglable>
           <RenderBlogs
             user={user}
             blogs={blogs}
