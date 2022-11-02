@@ -50,8 +50,8 @@ router.put('/:id', async (request, response) => {
 
   const updatedBlog = await Blog
     .findByIdAndUpdate(
-      request.params.id, 
-      blog, 
+      request.params.id,
+      blog,
       { new: true, runValidators: true, context: 'query' }
     )
       

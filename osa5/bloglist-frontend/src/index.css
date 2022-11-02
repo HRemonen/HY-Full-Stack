@@ -7,7 +7,7 @@
   margin: 10px 0;
   padding: 10px;
   border-radius: 3px 3px 3px 3px;
-  width: 640px;
+  width: fit-content;
 }
 
 .success-msg {
@@ -21,4 +21,23 @@
 .error-msg {
     color: #D8000C;
     background-color: #FFBABA;
+}
+
+.blogWrapper {
+	margin: 0.5em 0;
+    padding: 0.1em;
+    width: 30vw;
+	background-color: rgba(216, 216, 216, 0.21);
+	border: solid 1px rgba(151,151,151,0.21);
+	position: relative;
+}
+
+.blogWrapper:hover {
+    cursor: defaul;
+	background-color: bisque;
+	border: solid 1px rgba(151,151,151,0.21);
+}
+
+.blogWrapper b:hover {
+    cursor: pointer;
 }
