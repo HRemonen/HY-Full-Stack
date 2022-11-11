@@ -42,3 +42,25 @@ test('render full content when blog name is clicked', async () => {
   expect(component.container).toHaveTextContent('www.kalevi.fi')
 
 })
+
+test('like button pressed calls the like handler', async () => {
+  const mockHandler = jest.fn()
+
+  render(
+    <Blog
+      user={user}
+      blog={blog}
+      handleBlogLike={mockHandler}
+    />
+  )
+
+  const event = userEvent.setup()
+  const button = screen.getByText('kalevin kotisivut')
+  await event.click(button)
+
+  const likeButton = screen.getByText('like')
+  await event.click(likeButton)
+  await event.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})
