@@ -24,18 +24,21 @@
 }
 
 .blogWrapper {
-	margin: 0.5em 0;
-    padding: 0.1em;
-    width: 30vw;
-	background-color: rgba(216, 216, 216, 0.21);
+	margin: 0.2em 0;
+    padding: 0.5em;
+    border-radius: 10px;
+    width: 25vw;
+	background-color: #c4c1ac;
 	border: solid 1px rgba(151,151,151,0.21);
 	position: relative;
 }
 
 .blogWrapper:hover {
+    color: white;
     cursor: defaul;
-	background-color: bisque;
-	border: solid 1px rgba(151,151,151,0.21);
+    margin-left: 0.5em;
+	background-color: #404040;
+	border: solid 3px rgba(151,151,151,0.21);
 }
 
 .blogWrapper b:hover {
