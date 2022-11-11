@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 const user = {
@@ -17,10 +18,27 @@ const blog = {
   id: '63624a1f3014976c7c026840'
 }
 
-test('renders content', () => {
-
+test('render title and author when nothing is clicked', () => {
   render(<Blog user={user} blog={blog}/>)
 
   const element = screen.getByText('kalevin kotisivut')
   expect(element).toBeDefined()
+})
+
+test('render full content when blog name is clicked', async () => {
+  const component = render(
+    <Blog
+      user={user}
+      blog={blog}
+    />
+  )
+
+  const event = userEvent.setup()
+  const button = screen.getByText('kalevin kotisivut')
+  await event.click(button)
+
+  expect(component.container).toHaveTextContent('kalevin kotisivut')
+  expect(component.container).toHaveTextContent('Kalevi')
+  expect(component.container).toHaveTextContent('www.kalevi.fi')
+
 })
