@@ -35,3 +35,10 @@
 - [b] Backendin testaaminen
 - [c] Käyttäjien hallinta
 - [d] Token-perustainen kirjautuminen
+
+### [Osa 5 - React-sovelluksen testaaminen](https://fullstackopen.com/osa5)
+
+- [a] Kirjautuminen frontendissä
+- [b] props.children ja proptypet
+- [c] React-sovellusten testaaminen
+- [d] End to end -testaus
