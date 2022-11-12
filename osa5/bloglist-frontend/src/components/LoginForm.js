@@ -39,7 +39,7 @@ const LoginForm = ({ handleLogin }) => {
             />
           </label>
         </div>
-        <button type="submit">login</button>
+        <button id="login-button" type="submit">login</button>
       </form>
     </div>
   )

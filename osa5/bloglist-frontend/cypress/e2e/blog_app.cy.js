@@ -7,4 +7,12 @@ describe('Blog app', function() {
   it('Login form is shown', function() {
     cy.contains('Log in to blogs')
   })
+
+  it('user can log in', function() {
+    cy.get('#username').type('Hene')
+    cy.get('#password').type('salasana')
+    cy.get('#login-button').click()
+
+    cy.contains('Logged in as user: Henri Remonen')
+  })
 })
