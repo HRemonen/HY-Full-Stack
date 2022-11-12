@@ -39,8 +39,19 @@ describe('Blog app', function() {
       cy.login({ username: 'Hene', password: 'salasana' })
     })
 
-    it('A blog can be created', function() {
-      //
+    it('a new blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.get('#title-input').type('Kalevon Cypress testi blogi')
+      cy.get('#author-input').type('Cypress kalevi')
+      cy.get('#url-input').type('www.cypress-kalevi.fi')
+      cy.contains('create').click()
+
+      cy.get('.success-msg').should('contain',
+        // eslint-disable-next-line quotes
+        "Added a new blog: 'Kalevon Cypress testi blogi' by Cypress kalevi")
+
+      //new blog appears on the list
+      cy.contains('Kalevon Cypress testi blogi')
     })
   })
 })
