@@ -27,7 +27,7 @@ const Blog = ({ user, blog, handleBlogLike, handleBlogDelete }) => {
   }
 
   return (
-    <div className='blogWrapper'>
+    <div className='blog-wrapper'>
       <div>
         <p>
           <b onClick={() => setView(!view)}>{blog.title}</b>, by: {blog.author} <br />

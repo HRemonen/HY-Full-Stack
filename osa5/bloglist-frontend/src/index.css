@@ -23,7 +23,7 @@
     background-color: #FFBABA;
 }
 
-.blogWrapper {
+.blog-wrapper {
 	margin: 0.2em 0;
     padding: 0.5em;
     border-radius: 10px;
@@ -33,7 +33,7 @@
 	position: relative;
 }
 
-.blogWrapper:hover {
+.blog-wrapper:hover {
     color: white;
     cursor: defaul;
     margin-left: 0.5em;
@@ -41,6 +41,6 @@
 	border: solid 3px rgba(151,151,151,0.21);
 }
 
-.blogWrapper b:hover {
+.blog-wrapper b:hover {
     cursor: pointer;
 }

@@ -88,5 +88,42 @@ describe('Blog app', function() {
       cy.contains('First blog by Kalevi').should('not.exist')
       cy.get('.success-msg').should('contain', 'Blog deleted successfully')
     })
+
+    it.only('most liked blog is on top of the list', function() {
+      //At first the first blog is at the top of the blog list
+      cy.get('.blog-wrapper').eq(0).should('contain', 'First blog by Kalevi')
+
+      //Open the last blog on the list and like it
+      cy.contains('Another blog by Kalevi')
+        .click()
+
+      //click like button
+      cy.contains('like')
+        .click()
+
+      //Now the second blog should be on top
+      cy.get('.blog-wrapper').eq(0).should('contain', 'Another blog by Kalevi')
+      //and the first blog should be at the bottom
+      cy.get('.blog-wrapper').eq(1).should('contain', 'First blog by Kalevi')
+
+      //Like the 'First' blog two times and it should be on the top again
+
+      //First lets close the another blog...
+      cy.contains('Another blog by Kalevi')
+        .click()
+
+      //Now open the first blog and like it two times
+      cy.contains('First blog by Kalevi')
+        .click()
+      cy.contains('like')
+        .click()
+        .click()
+
+      //check that the list order has changed
+      //Now the first blog should be on top
+      cy.get('.blog-wrapper').eq(0).should('contain', 'First blog by Kalevi')
+      //and the first blog should be at the bottom
+      cy.get('.blog-wrapper').eq(1).should('contain', 'Another blog by Kalevi')
+    })
   })
 })
