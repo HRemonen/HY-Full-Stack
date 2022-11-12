@@ -75,5 +75,18 @@ describe('Blog app', function() {
 
       cy.contains('likes 1')
     })
+
+    it('a blog can be deleted by the user who created it', function() {
+      //Open the blog
+      cy.contains('First blog by Kalevi')
+        .click()
+
+      //click like button
+      cy.contains('delete')
+        .click()
+
+      cy.contains('First blog by Kalevi').should('not.exist')
+      cy.get('.success-msg').should('contain', 'Blog deleted successfully')
+    })
   })
 })
