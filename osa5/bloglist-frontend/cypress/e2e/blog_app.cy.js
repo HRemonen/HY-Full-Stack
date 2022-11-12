@@ -35,6 +35,12 @@ describe('Blog app', function() {
   })
 
   describe('when logged in', function() {
-    //
+    beforeEach(function() {
+      cy.login({ username: 'Hene', password: 'salasana' })
+    })
+
+    it('A blog can be created', function() {
+      //
+    })
   })
 })
