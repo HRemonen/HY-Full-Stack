@@ -37,6 +37,16 @@ describe('Blog app', function() {
   describe('when logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'Hene', password: 'salasana' })
+      cy.createBlog({
+        title: 'First blog by Kalevi',
+        author: 'Kalevi man',
+        url: 'www.kalvein.io'
+      })
+      cy.createBlog({
+        title: 'Another blog by Kalevi',
+        author: 'Kalevi man',
+        url: 'www.kalevinkotisivut.fi'
+      })
     })
 
     it('a new blog can be created', function() {
@@ -52,6 +62,18 @@ describe('Blog app', function() {
 
       //new blog appears on the list
       cy.contains('Kalevon Cypress testi blogi')
+    })
+
+    it('a blog can be liked', function() {
+      //Open the blog
+      cy.contains('Another blog by Kalevi')
+        .click()
+
+      //click like button
+      cy.contains('like')
+        .click()
+
+      cy.contains('likes 1')
     })
   })
 })
