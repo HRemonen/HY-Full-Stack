@@ -57,7 +57,7 @@ const reducer = (state = initialState, action) => {
     case 'NEW_ANECDOTE' :
       return [...state, action.data]
 
-    default: return state.map(anecdote)
+    default: return state
   }
 }
 
