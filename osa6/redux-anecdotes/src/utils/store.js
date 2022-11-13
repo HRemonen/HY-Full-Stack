@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import anecdoteReducer from '../reducers/anecdoteReducer'
 import notificationReducer from '../reducers/notificationReducer'
 
