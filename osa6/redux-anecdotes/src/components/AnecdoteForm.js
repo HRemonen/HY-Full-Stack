@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { newNotification, clearNotification } from '../reducers/notificationReducer'
 
-const NewAnecdote = (props) => {
+const AnecdoteForm = (props) => {
   const [anecdote, setAnecdote] = useState('')
 
   const dispatch = useDispatch()
 
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault()
     const content = anecdote
 
@@ -36,4 +36,4 @@ const NewAnecdote = (props) => {
   )
 }
 
-export default NewAnecdote
+export default AnecdoteForm
