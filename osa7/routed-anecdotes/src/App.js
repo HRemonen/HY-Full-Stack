@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Routes, Route, Link, useMatch
+  Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
 
 const padding = {
@@ -11,20 +11,24 @@ const Menu = () => {
 
   return (
     <div>
-      <Link style={padding} to="/">anecdotes</Link>
-      <Link style={padding} to="/new-anecdote">create new</Link>
-      <Link style={padding} to="/about">about</Link>
+      <Link style={ padding } to="/">anecdotes</Link>
+      <Link style={ padding } to="/new-anecdote">create new</Link>
+      <Link style={ padding } to="/about">about</Link>
     </div>
   )
 }
+
+const Notification = ({ notification }) => (
+  <p>{ notification }</p>
+)
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => 
-        <li key={anecdote.id}>
-          <Link style={padding} to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        <li key={ anecdote.id }>
+          <Link style={ padding } to={`/anecdotes/${ anecdote.id }`}>{ anecdote.content }</Link>
         </li>)}
     </ul>
   </div>
@@ -32,15 +36,13 @@ const AnecdoteList = ({ anecdotes }) => (
 
 const Anecdote = ({ anecdote }) => (
   <div>
-    <h2><b>{anecdote.content} by {anecdote.author}</b></h2>
+    <h2><b>{ anecdote.content } by { anecdote.author }</b></h2>
     <p>
-      has {anecdote.votes} votes <br />
-      for more info see <a href={anecdote.info}>{anecdote.info}</a> <br />
+      has { anecdote.votes } votes <br />
+      for more info see <a href={ anecdote.info }>{ anecdote.info }</a> <br />
     </p>
   </div>
 )
-  
-
 
 const About = () => (
   <div>
@@ -69,6 +71,7 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -78,23 +81,28 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+
+    setContent('')
+    setAuthor('')
+    setInfo('')
+    navigate('/')
   }
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ handleSubmit }>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' value={ content } onChange={(e) => setContent(e.target.value)} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' value={ author } onChange={(e) => setAuthor(e.target.value)} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' value={ info } onChange={(e)=> setInfo(e.target.value)} />
         </div>
         <button>create</button>
       </form>
@@ -131,6 +139,11 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${ anecdote.content } created!`)
+    setTimeout(() => {
+      setNotification('')
+    }, 5000);
+    
   }
 
   const anecdoteById = (id) =>
@@ -151,15 +164,17 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={ notification } />
+      
       <Routes>
         <Route path="/" 
-          element={<AnecdoteList anecdotes={anecdotes} />}>
+          element={<AnecdoteList anecdotes={ anecdotes } />}>
         </Route>
         <Route path='/anecdotes/:id'
-          element={<Anecdote anecdote={anecdoteMatch} />}>
+          element={<Anecdote anecdote={ anecdoteMatch } />}>
         </Route>
         <Route path="/new-anecdote"
-          element={<CreateNew addNew={addNew} />}>
+          element={<CreateNew addNew={ addNew } />}>
         </Route>
         <Route path="/about" 
           element={<About />}>   
