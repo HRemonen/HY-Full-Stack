@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { newNotification, clearNotification } from '../reducers/notificationReducer'
+import { newNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = (props) => {
   const [anecdote, setAnecdote] = useState('')
@@ -17,7 +17,6 @@ const AnecdoteForm = (props) => {
     dispatch(createAnecdote(content))
     
     dispatch(newNotification(`new anecdote '${content}' created`))
-    setTimeout(() => dispatch(clearNotification()), 5000)
   }
 
   return (
