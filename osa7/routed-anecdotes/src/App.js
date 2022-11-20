@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import {
-  Routes, Route, Link
+  Routes, Route, Link, useMatch
 } from 'react-router-dom'
 
+const padding = {
+  paddingRight: 5
+}
 
 const Menu = () => {
-  const padding = {
-    paddingRight: 5
-  }
+
   return (
     <div>
       <Link style={padding} to="/">anecdotes</Link>
@@ -21,10 +22,25 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+        <li key={anecdote.id}>
+          <Link style={padding} to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdote }) => (
+  <div>
+    <h2><b>{anecdote.content} by {anecdote.author}</b></h2>
+    <p>
+      has {anecdote.votes} votes <br />
+      for more info see <a href={anecdote.info}>{anecdote.info}</a> <br />
+    </p>
+  </div>
+)
+  
+
 
 const About = () => (
   <div>
@@ -107,6 +123,11 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
+  const match = useMatch('/anecdotes/:id')
+  const anecdoteMatch = match
+    ? anecdotes.find(a => a.id === Number(match.params.id))
+    : null
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -133,6 +154,9 @@ const App = () => {
       <Routes>
         <Route path="/" 
           element={<AnecdoteList anecdotes={anecdotes} />}>
+        </Route>
+        <Route path='/anecdotes/:id'
+          element={<Anecdote anecdote={anecdoteMatch} />}>
         </Route>
         <Route path="/new-anecdote"
           element={<CreateNew addNew={addNew} />}>
