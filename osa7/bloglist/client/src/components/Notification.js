@@ -1,15 +1,10 @@
 import { connect } from 'react-redux'
 
 const Notification = (props) => {
-  console.log('Notification', props.notification)
+  console.log('Notification', props)
 
-  const style = {
-    border: 'solid',
-    padding: 10,
-    borderWidth: 1
-  }
   return (
-    <div style={style}>
+    <div>
       {props.notification}
     </div>
   )
