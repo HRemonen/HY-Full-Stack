@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+
 import LoginForm from "./components/LoginForm";
 import RenderBlogs from "./components/RenderBlogs";
 import Notification from "./components/Notification";
@@ -9,30 +10,22 @@ import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
+import { useDispatch } from 'react-redux'
+import { newNotification } from './reducers/notificationReducer'
+
 const App = () => {
+  const dispatch = useDispatch();
+
   const [blogs, setBlogs] = useState([]);
-  const [message, setMessage] = useState(null);
-  const [messageType, setMessageType] = useState(null);
-
   const [user, setUser] = useState(null);
-
   const blogFormRef = useRef();
 
-  //This helper function is used to sort the blogs.
-  //call this function rather than using the setBlogs directly.
   const sortBlogs = (blogs) => {
     const sortedBlogs = blogs.sort((a, b) => {
       return b.likes - a.likes;
     });
     setBlogs(sortedBlogs);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setMessage(null);
-      setMessageType(null);
-    }, 5000);
-  }, [message]);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => sortBlogs(blogs));
@@ -56,11 +49,9 @@ const App = () => {
       const newBlog = await blogService.create(blog);
       sortBlogs(blogs.concat(newBlog));
 
-      setMessage(`Added a new blog: '${blog.title}' by ${blog.author}`);
-      setMessageType("success-msg");
+      dispatch(newNotification(`Added a new blog: '${blog.title}' by ${blog.author}`));
     } catch (exception) {
-      setMessage("Blog creation failed, check all values");
-      setMessageType("error-msg");
+      dispatch(newNotification("Blog creation failed, check all values"));
     }
   };
 
@@ -74,9 +65,9 @@ const App = () => {
           return oldBlog.id === updatedBlog.id ? updatedBlog : oldBlog;
         })
       );
+    dispatch(newNotification(`Liked '${blog.title}' by ${blog.author}`));
     } catch (exception) {
-      setMessage("Something went wrong");
-      setMessageType("error-msg");
+      dispatch(newNotification("Something went wrong"));
     }
   };
 
@@ -85,11 +76,9 @@ const App = () => {
       await blogService.remove(blog.id);
       sortBlogs(blogs.filter((oldBlog) => oldBlog.id !== blog.id));
 
-      setMessage("Blog deleted successfully");
-      setMessageType("success-msg");
+      dispatch(newNotification("Blog deleted succesfully"));
     } catch (exception) {
-      setMessage("Unauthorized user. Cannot delete this blog.");
-      setMessageType("error-msg");
+      dispatch(newNotification("Unauthorized user. Cannot delete this blog."));
     }
   };
 
@@ -105,11 +94,9 @@ const App = () => {
       setUser(user);
       blogService.setToken(user.token);
 
-      setMessage(`Logged in as user: ${user.name}`);
-      setMessageType("success-msg");
+      dispatch(newNotification(`Logged in as user: ${user.name}`));
     } catch (exception) {
-      setMessage("Wrong username or password");
-      setMessageType("error-msg");
+      dispatch(newNotification("Wrong username or password"));
     }
   };
 
@@ -117,13 +104,12 @@ const App = () => {
     event.preventDefault();
     window.localStorage.removeItem("loggedUser");
     setUser(null);
-    setMessage("Successfully logged out");
-    setMessageType("warning-msg");
+    dispatch(newNotification("Successfully logged out"));
   };
 
   return (
     <div>
-      <Notification message={message} type={messageType} />
+      <Notification />
 
       {user === null && <LoginForm handleLogin={handleLogin} />}
 
