@@ -9,11 +9,11 @@ import RenderBlogs from "./components/RenderBlogs";
 import Notification from "./components/Notification";
 
 import { initializeBlogs } from './reducers/blogReducer'
-import { isLogged } from './reducers/loginReducer'
+import { isLogged } from './reducers/authReducer'
 
 const App = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.login)
+  const user = useSelector(state => state.authentication)
   const blogFormRef = useRef();
 
   useEffect(() => {

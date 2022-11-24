@@ -3,8 +3,8 @@ import Blog from "./Blog";
 
 const RenderBlogs = () => {
   const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.login)
-  
+  const user = useSelector(state => state.authentication)
+
   return (
     <div>
       {blogs.map((blog) => (

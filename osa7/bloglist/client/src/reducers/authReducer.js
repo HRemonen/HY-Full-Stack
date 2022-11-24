@@ -4,8 +4,8 @@ import blogService from '../services/blogs'
 
 const initialState = null
 
-const loginSlice = createSlice({
-  name: 'login',
+const authSlice = createSlice({
+  name: 'authentication',
   initialState,
   reducers: {
     login(state, action) {
@@ -17,7 +17,7 @@ const loginSlice = createSlice({
     }
 })
 
-export const { login, logout } = loginSlice.actions
+export const { login, logout } = authSlice.actions
 
 export const isLogged = () => {
   return async dispatch => {
@@ -48,4 +48,4 @@ export const logoutUser = () => {
   }
 }
 
-export default loginSlice.reducer
+export default authSlice.reducer

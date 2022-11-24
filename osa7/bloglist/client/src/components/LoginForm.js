@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 
-import { loginUser } from "../reducers/loginReducer";
+import { loginUser } from "../reducers/authReducer";
 
 const LoginForm = () => {
   const dispatch = useDispatch()
