@@ -1,8 +1,18 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
+import { useDispatch } from 'react-redux'
+import { newNotification } from '../reducers/notificationReducer'
+import { createBlog } from "../reducers/blogReducer";
 
-const CreateBlogForm = ({ handleBlogCreation }) => {
+const CreateBlogForm = () => {
+  const dispatch = useDispatch()
   const [blog, setBlog] = useState({ title: "", author: "", url: "" });
+
+  const handleBlogCreation = async (blog) => {
+    console.log(`Creating new blog: ${blog}`);
+
+    dispatch(createBlog(blog))
+    dispatch(newNotification(`Added a new blog: '${blog.title}' by ${blog.author}`));
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -59,10 +69,6 @@ const CreateBlogForm = ({ handleBlogCreation }) => {
       </form>
     </div>
   );
-};
-
-CreateBlogForm.propTypes = {
-  handleBlogCreation: PropTypes.func.isRequired,
 };
 
 export default CreateBlogForm;
