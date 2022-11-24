@@ -17,15 +17,15 @@ const getAll = async () => {
   return response.data;
 };
 
-const create = async (newObject) => {
-  const response = await axios.post(baseUrl, newObject, config);
+const create = async (content) => {
+  const response = await axios.post(baseUrl, content, config);
   return response.data;
 };
 
-const update = async (newObject) => {
+const update = async (content) => {
   const object = {
-    ...newObject,
-    likes: newObject.likes + 1
+    ...content,
+    likes: content.likes + 1
   }
 
   const response = await axios.put(`${baseUrl}/${object.id}`, object);

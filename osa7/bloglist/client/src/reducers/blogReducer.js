@@ -24,7 +24,7 @@ const blogSlice = createSlice({
     delete(state, action) {
       return
     },
-    appendBlogs(state, action) {
+    append(state, action) {
       state.push(action.payload)
     },
     setBlogs(state, action) {
@@ -33,7 +33,7 @@ const blogSlice = createSlice({
   }
 })
 
-export const { like, appendBlogs, setBlogs } = blogSlice.actions
+export const { like, append, setBlogs } = blogSlice.actions
 
 export const initializeBlogs = () => {
   return async dispatch => {
@@ -46,7 +46,7 @@ export const initializeBlogs = () => {
 export const createBlog = (content) => {
   return async dispatch => {
     const newBlog = await blogService.create(content)
-    dispatch(appendBlogs(newBlog))
+    dispatch(append(newBlog))
   }
 }
 
