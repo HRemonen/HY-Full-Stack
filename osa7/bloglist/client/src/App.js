@@ -34,9 +34,7 @@ const App = () => {
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm />
           </Togglable>
-          <RenderBlogs
-            user={user}
-          />
+          <RenderBlogs />
         </>
       )}
     </div>
