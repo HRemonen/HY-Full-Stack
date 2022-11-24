@@ -9,7 +9,7 @@ const Logout = () => {
     <div>
       <p>
         Logged in as {user.name} <br />
-        <button onClick={() => dispatch(logoutUser())}>logout</button>
+        <button className="logout-btn" onClick={() => dispatch(logoutUser())}>logout</button>
       </p>
     </div>
   );

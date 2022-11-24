@@ -1,58 +1,99 @@
-import { useState } from "react";
 import { useDispatch } from 'react-redux'
+import { Form, Field } from 'react-final-form'
 
 import { loginUser } from "../reducers/loginReducer";
 
 const LoginForm = () => {
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = (username, password) => {
+  const handleSubmit = async ({username, password, confirm}) => {
     dispatch(loginUser(username, password))
   }
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    handleLogin(username, password);
-    setUsername("");
-    setPassword("");
-  };
 
   return (
     <div>
       <h2>Log in to blogs</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            username
-            <input
-              id="username"
-              type="text"
-              value={username}
-              name="Username"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            password
-            <input
-              id="password"
-              type="password"
-              value={password}
-              name="Password"
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </label>
-        </div>
-        <button id="login-button" type="submit">
-          login
-        </button>
-      </form>
+      <Form
+        onSubmit={handleSubmit}
+        validate={values => {
+          const errors = {}
+          if (!values.username) {
+            errors.username = 'Required'
+          }
+          if (!values.password) {
+            errors.password = 'Required'
+          }
+          if (!values.confirm) {
+            errors.confirm = 'Required'
+          } else if (values.confirm !== values.password) {
+            errors.confirm = 'Must match'
+          }
+          return errors
+        }}
+        render={({ handleSubmit, form, submitting, pristine, values }) => (
+          <form onSubmit={handleSubmit}>
+            <Field name="username">
+              {({ input, meta }) => (
+                <div>
+                  <label>Username</label>
+                  <input {...input} 
+                    id="username-input" 
+                    name="username" 
+                    type="text" 
+                    placeholder="Username" 
+                  />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <Field name="password">
+              {({ input, meta }) => (
+                <div>
+                  <label>Password</label>
+                  <input {...input} 
+                    id="password-input" 
+                    name="password" 
+                    type="password" 
+                    placeholder="Password" 
+                  />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <Field name="confirm">
+              {({ input, meta }) => (
+                <div>
+                  <label>Confirm</label>
+                  <input {...input} 
+                    id="password-conf-input" 
+                    name="password-conf" 
+                    type="password" 
+                    placeholder="Confirm" 
+                  />
+                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                </div>
+              )}
+            </Field>
+            <div className="login-form-buttons">
+              <button 
+                className="login-btn" 
+                type="submit" 
+                disabled={submitting}
+              >
+                Submit
+              </button>
+              <button
+                className="reset-btn"
+                type="button"
+                onClick={form.reset}
+                disabled={submitting || pristine}
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        )}
+      />
     </div>
   );
 };

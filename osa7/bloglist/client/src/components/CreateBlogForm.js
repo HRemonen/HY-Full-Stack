@@ -27,7 +27,12 @@ const CreateBlogForm = () => {
               {({ input, meta }) => (
                 <div>
                   <label>Title</label>
-                  <input {...input} id="title-input" type="text" name="title" placeholder="Blog title"/>
+                  <input {...input} 
+                    id="title-input" 
+                    type="text" 
+                    name="title" 
+                    placeholder="Blog title"
+                  />
                   {meta.error && meta.touched && <span>{ meta.error }</span>}
                 </div>
               )}
@@ -36,7 +41,12 @@ const CreateBlogForm = () => {
               {({ input, meta }) => (
                 <div>
                   <label>Author</label>
-                  <input {...input} id="author-input" type="text" name="author" placeholder="Author name"/>
+                  <input {...input} 
+                    id="author-input" 
+                    type="text" 
+                    name="author" 
+                    placeholder="Author name"
+                  />
                   {meta.error && meta.touched && <span>{ meta.error }</span>}
                 </div>
               )}
@@ -45,17 +55,26 @@ const CreateBlogForm = () => {
               {({ input, meta }) => (
                 <div>
                   <label>Url</label>
-                  <input {...input} id="url-input" type="text" name="url" placeholder="Blog url"/>
+                  <input {...input} 
+                    id="url-input" 
+                    type="text" 
+                    name="url" 
+                    placeholder="Blog url"
+                  />
                   {meta.error && meta.touched && <span>{ meta.error }</span>}
                 </div>
               )}
             </Field>
             <div className="blog-form-buttons">
-              <button className="blog-create-btn" type="submit" disabled={submitting}>
+              <button 
+                className="create-btn" 
+                type="submit" 
+                disabled={submitting}
+              >
                 Submit
               </button>
               <button
-                className="blog-reset-btn"
+                className="reset-btn"
                 type="button"
                 onClick={form.reset}
                 disabled={submitting || pristine}
