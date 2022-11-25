@@ -8,8 +8,9 @@ import LoginForm from "./components/LoginForm";
 import RenderBlogs from "./components/RenderBlogs";
 import Notification from "./components/Notification";
 
-import { initializeBlogs } from './reducers/blogReducer'
 import { isLogged } from './reducers/authReducer'
+import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const App = () => {
   useEffect(() => {
     dispatch(isLogged())
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
 
