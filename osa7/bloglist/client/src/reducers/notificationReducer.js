@@ -1,35 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-let timeoutID
+let timeoutID;
 
-const initialState = ''
+const initialState = "";
 
 const notificationSlice = createSlice({
-  name: 'notifications',
+  name: "notifications",
   initialState,
   reducers: {
     setNotification(state, action) {
-      return action.payload
+      return action.payload;
     },
     clearNotification(state, action) {
-      return initialState
-    }
-  }
-})
+      return initialState;
+    },
+  },
+});
 
-export const { setNotification, clearNotification } = notificationSlice.actions
+export const { setNotification, clearNotification } = notificationSlice.actions;
 
-export const newNotification = (content, type='success-msg', time = 5) => {
-  return async dispatch => {
-    dispatch(setNotification({ content, type }))
+export const newNotification = (content, type = "success-msg", time = 5) => {
+  return async (dispatch) => {
+    dispatch(setNotification({ content, type }));
 
     if (timeoutID) {
-      clearTimeout(timeoutID)
+      clearTimeout(timeoutID);
     }
 
     timeoutID = setTimeout(() => {
-      dispatch(clearNotification())
-    }, time * 1000)
-  }
-}
-export default notificationSlice.reducer
+      dispatch(clearNotification());
+    }, time * 1000);
+  };
+};
+export default notificationSlice.reducer;

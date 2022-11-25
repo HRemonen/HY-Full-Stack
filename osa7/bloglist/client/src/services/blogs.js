@@ -25,8 +25,8 @@ const create = async (content) => {
 const update = async (content) => {
   const object = {
     ...content,
-    likes: content.likes + 1
-  }
+    likes: content.likes + 1,
+  };
 
   const response = await axios.put(`${baseUrl}/${object.id}`, object);
   return response.data;

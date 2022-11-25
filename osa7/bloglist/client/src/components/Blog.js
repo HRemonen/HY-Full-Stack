@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 
 import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 
 const Blog = ({ user, blog }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [view, setView] = useState(false);
 
   const checkOwner = blog.user.id === user.id || blog.user === user.id;
