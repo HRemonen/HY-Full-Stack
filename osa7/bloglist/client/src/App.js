@@ -21,7 +21,7 @@ const App = () => {
 
   return (
     <Router>
-      <section className="secondary">
+      <section className="primary">
         {user ? <MainRoutes /> : <LoginForm />}
       </section>
     </Router>

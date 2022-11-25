@@ -1,22 +1,22 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom"
 
-import RenderUsers from "../RenderUsers"
 import Index from "../pages/Index";
+import Navbar from "../Navigation";
 import Notification from "../Notification";
-import Logout from "../Logout";
+import RenderUsers from "../RenderUsers"
+import User from "../User";
 
 const MainRoutes = () => {
   return (
     <>
-      <Logout />
+      <Navbar />
       <Notification />
 
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/users" element={<RenderUsers />} />
-
-        <Route path="/users/:id"/>
+        <Route path="/users/:name" element={<User />} />
       </Routes>
     </>
   )
