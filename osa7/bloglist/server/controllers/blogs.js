@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+const { response } = require('../app')
 const Blog = require('../models/blog')
 
 router.get('/', async (request, response) => {
@@ -57,6 +58,23 @@ router.put('/:id', async (request, response) => {
     likes: body.likes
   }
 
+  const updatedBlog = await Blog
+    .findByIdAndUpdate(
+      request.params.id,
+      blog,
+      { new: true, runValidators: true, context: 'query' }
+    )
+
+  response.json(updatedBlog)
+})
+
+router.post('/:id/comments', async (request, response) => {
+  console.log('request body:', request.body.content)
+  const comment = request.body.content
+  const blog = await Blog.findById(request.params.id)
+
+  blog.comments.push(comment)
+  
   const updatedBlog = await Blog
     .findByIdAndUpdate(
       request.params.id,

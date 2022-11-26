@@ -15,7 +15,7 @@ const Blog = () => {
   if (!blog) return null
 
   const checkOwner = blog.user.id === user.id || blog.user === user.id;
-
+  console.log('comments:', blog.comments)
   return (
     <div className="blog-wrapper">
       <h3>{ blog.title } { blog.author }</h3>
@@ -28,6 +28,12 @@ const Blog = () => {
           <button onClick={() => dispatch(deleteBlog(blog))}>delete</button>
         )}
       </p>
+      <h3>Comments</h3>
+      <ul className="comment-list">
+        {blog.comments.map(comment => (
+            <li key={ comment }>{ comment }</li>
+          ))}
+      </ul>
     </div>
   );
 };
