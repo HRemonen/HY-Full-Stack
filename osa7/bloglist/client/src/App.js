@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import LoginForm from "./components/LoginForm";
+import LoginForm from "./components/auth/LoginForm";
 import MainRoutes from "./components/routes/Routes"
 
 import { isLogged } from "./reducers/authReducer";

@@ -2,7 +2,7 @@ import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { likeBlog, commentBlog, deleteBlog } from "../reducers/blogReducer";
+import { likeBlog, commentBlog, deleteBlog } from "../../reducers/blogReducer";
 
 const Blog = () => {
   const dispatch = useDispatch();

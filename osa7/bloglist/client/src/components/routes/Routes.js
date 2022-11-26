@@ -3,10 +3,10 @@ import { Routes, Route } from "react-router-dom"
 
 import Index from "../pages/Index";
 import Navbar from "../Navigation";
-import Notification from "../Notification";
-import RenderUsers from "../RenderUsers"
-import User from "../User";
-import Blog from "../Blog";
+import Notification from "../misc/Notification";
+import RenderUsers from "../user/RenderUsers"
+import User from "../user/User";
+import Blog from "../blog/Blog";
 
 const MainRoutes = () => {
   return (

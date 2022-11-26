@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../reducers/authReducer";
+import { logoutUser } from "../../reducers/authReducer";
 
 const Logout = () => {
   const dispatch = useDispatch();

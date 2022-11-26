@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 
-import CreateBlogForm from "../CreateBlogForm"
-import Togglable from "../Togglable";
-import RenderBlogs from "../RenderBlogs";
+import CreateBlogForm from "../blog/CreateBlogForm"
+import Togglable from "../misc/Togglable";
+import RenderBlogs from "../blog/RenderBlogs";
 
 const Index = () => {
   const blogFormRef = useRef()

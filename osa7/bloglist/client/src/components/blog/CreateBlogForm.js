@@ -1,84 +1,81 @@
 import { useDispatch } from "react-redux";
 import { Form, Field } from "react-final-form";
 
-import { loginUser } from "../reducers/authReducer";
+import { newNotification } from "../../reducers/notificationReducer";
+import { createBlog } from "../../reducers/blogReducer";
 
-const LoginForm = () => {
+const CreateBlogForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = async ({ username, password, confirm }) => {
-    dispatch(loginUser(username, password));
+  const required = (value) => (value ? undefined : "Required");
+
+  const handleSubmit = async (blog) => {
+    console.log(`Creating new blog: ${blog}`);
+
+    dispatch(createBlog(blog));
+    dispatch(
+      newNotification(`Added a new blog: '${blog.title}' by ${blog.author}`)
+    );
   };
 
   return (
     <div>
-      <h2>Log in to blogs</h2>
+      <h2>Create a new blog</h2>
       <Form
         onSubmit={handleSubmit}
-        validate={(values) => {
-          const errors = {};
-          if (!values.username) {
-            errors.username = "Required";
-          }
-          if (!values.password) {
-            errors.password = "Required";
-          }
-          if (!values.confirm) {
-            errors.confirm = "Required";
-          } else if (values.confirm !== values.password) {
-            errors.confirm = "Must match";
-          }
-          return errors;
-        }}
         render={({ handleSubmit, form, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
-            <Field name="username">
+            <Field name="title" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>Username</label>
+                  <label>Title</label>
                   <input
                     {...input}
-                    id="username-input"
-                    name="username"
+                    id="title-input"
                     type="text"
-                    placeholder="Username"
+                    name="title"
+                    placeholder="Blog title"
                   />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
-            <Field name="password">
+            <Field name="author" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>Password</label>
+                  <label>Author</label>
                   <input
                     {...input}
-                    id="password-input"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
+                    id="author-input"
+                    type="text"
+                    name="author"
+                    placeholder="Author name"
                   />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
-            <Field name="confirm">
+            <Field name="url" validate={required}>
               {({ input, meta }) => (
                 <div>
-                  <label>Confirm</label>
+                  <label>Url</label>
                   <input
                     {...input}
-                    id="password-conf-input"
-                    name="password-conf"
-                    type="password"
-                    placeholder="Confirm"
+                    id="url-input"
+                    type="text"
+                    name="url"
+                    placeholder="Blog url"
                   />
                   {meta.error && meta.touched && <span>{meta.error}</span>}
                 </div>
               )}
             </Field>
-            <div className="login-form-buttons">
-              <button className="login-btn" type="submit" disabled={submitting}>
+            <div className="blog-form-buttons">
+              <button
+                className="create-btn"
+                type="submit"
+                disabled={submitting}
+              >
                 Submit
               </button>
               <button
@@ -97,4 +94,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default CreateBlogForm;
