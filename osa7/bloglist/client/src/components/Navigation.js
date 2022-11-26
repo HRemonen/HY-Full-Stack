@@ -8,11 +8,11 @@ const Navbar = () => {
     <>
       <header className="navigation-bar">
         <nav>
-          <li>
-            <Link to="/">blogs</Link>
+          <li className="nav-list-item">
+            <Link className="nav-link" to="/">blogs</Link>
           </li>
-          <li>
-            <Link className="a" to="/users">users</Link>
+          <li className="nav-list-item">
+            <Link className="nav-link" to="/users">users</Link>
           </li>
           <li>
             <Logout />

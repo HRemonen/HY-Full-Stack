@@ -12,7 +12,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className="login-wrapper">
       <h2>Log in to blogs</h2>
       <Form
         onSubmit={handleSubmit}

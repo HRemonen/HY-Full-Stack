@@ -6,12 +6,12 @@ const Logout = () => {
   const user = useSelector((state) => state.authentication);
 
   return (
-    <>
-      Logged in as {user.username}
+    <div>
+      <p class="logged-user">{user.username}</p>
       <button className="logout-btn" onClick={() => dispatch(logoutUser())}>
         logout
       </button>
-    </>
+    </div>
   );
 };
 
