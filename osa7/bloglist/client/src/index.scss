@@ -129,10 +129,96 @@ header {
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background:  #33332d;
+  color: white;
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   border-radius: 10px;
+
+  h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+  }
+
+  .user-box {
+    position: relative;
+
+    span {
+      color: #d8000c;
+      position: relative;
+      top: -20px;
+    }
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+  }
+
+  .login-form-buttons {
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    
+    button {
+      appearance: button;
+      background-color: #fff;;
+      background-image: none;
+      border: 1px solid #33332d;
+      border-radius: 4px;
+      box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
+      box-sizing: border-box;
+      color: #33332d;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 1em;
+      line-height: 15px;
+      margin: 0 5px 10px 0;
+      overflow: visible;
+      padding: 10px 20px;
+      text-align: center;
+      text-transform: none;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      vertical-align: middle;
+      white-space: nowrap;
+      
+      &.login-btn {
+        &:hover {
+          text-decoration: none;
+          background-color: #33332d;
+          color: #fff;
+          border: 1px solid #fff;
+        }
+      }
+      
+      &.reset-btn {
+        &:hover {
+          text-decoration: none;
+          background-color: red;
+          color: #fff;
+          border: 1px solid #fff;
+        }
+      }
+  
+      &:not([disabled]):active {
+        box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+        transform: translate(2px, 2px);
+      }
+      
+    }
+  }
 }
 
 

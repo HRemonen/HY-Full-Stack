@@ -19,15 +19,15 @@ const LoginForm = () => {
         validate={(values) => {
           const errors = {};
           if (!values.username) {
-            errors.username = "Required";
+            errors.username = "required";
           }
           if (!values.password) {
-            errors.password = "Required";
+            errors.password = "required";
           }
           if (!values.confirm) {
-            errors.confirm = "Required";
+            errors.confirm = "required";
           } else if (values.confirm !== values.password) {
-            errors.confirm = "Must match";
+            errors.confirm = "must match";
           }
           return errors;
         }}
@@ -35,8 +35,7 @@ const LoginForm = () => {
           <form onSubmit={handleSubmit}>
             <Field name="username">
               {({ input, meta }) => (
-                <div>
-                  <label>Username</label>
+                <div className="user-box">
                   <input
                     {...input}
                     id="username-input"
@@ -44,14 +43,13 @@ const LoginForm = () => {
                     type="text"
                     placeholder="Username"
                   />
-                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                  {meta.error && meta.touched && <span>username {meta.error}</span>}
                 </div>
               )}
             </Field>
             <Field name="password">
               {({ input, meta }) => (
-                <div>
-                  <label>Password</label>
+                <div className="user-box">
                   <input
                     {...input}
                     id="password-input"
@@ -59,14 +57,13 @@ const LoginForm = () => {
                     type="password"
                     placeholder="Password"
                   />
-                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                  {meta.error && meta.touched && <span>password {meta.error}</span>}
                 </div>
               )}
             </Field>
             <Field name="confirm">
               {({ input, meta }) => (
-                <div>
-                  <label>Confirm</label>
+                <div className="user-box">
                   <input
                     {...input}
                     id="password-conf-input"
@@ -74,7 +71,7 @@ const LoginForm = () => {
                     type="password"
                     placeholder="Confirm"
                   />
-                  {meta.error && meta.touched && <span>{meta.error}</span>}
+                  {meta.error && meta.touched && <span>password {meta.error}</span>}
                 </div>
               )}
             </Field>
