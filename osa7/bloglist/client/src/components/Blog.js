@@ -1,7 +1,8 @@
 import { useMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Form, Field } from "react-final-form";
 
-import { likeBlog, deleteBlog } from "../reducers/blogReducer";
+import { likeBlog, commentBlog, deleteBlog } from "../reducers/blogReducer";
 
 const Blog = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,11 @@ const Blog = () => {
   if (!blog) return null
 
   const checkOwner = blog.user.id === user.id || blog.user === user.id;
-  console.log('comments:', blog.comments)
+
+  const handleSubmit = (comment) => {
+    dispatch(commentBlog(blog, comment))
+  }
+
   return (
     <div className="blog-wrapper">
       <h3>{ blog.title } { blog.author }</h3>
@@ -29,6 +34,46 @@ const Blog = () => {
         )}
       </p>
       <h3>Comments</h3>
+      <div className="comment-section-wrapper">
+        <Form
+          onSubmit={handleSubmit}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="comment" >
+                {({ input, meta }) => (
+                  <div>
+                    <input
+                      {...input}
+                      id="comment-input"
+                      type="text"
+                      name="comment"
+                      placeholder="Write comment"
+                    />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+              <div className="comment-buttons">
+                <button
+                  className="create-btn"
+                  type="submit"
+                  disabled={submitting}
+                >
+                  Submit
+                </button>
+                <button
+                  className="reset-btn"
+                  type="button"
+                  onClick={form.reset}
+                  disabled={submitting || pristine}
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          )}
+        />
+      </div>
       <ul className="comment-list">
         {blog.comments.map(comment => (
             <li key={ comment }>{ comment }</li>

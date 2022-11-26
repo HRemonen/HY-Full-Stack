@@ -69,8 +69,8 @@ router.put('/:id', async (request, response) => {
 })
 
 router.post('/:id/comments', async (request, response) => {
-  console.log('request body:', request.body.content)
-  const comment = request.body.content
+  console.log('request body:', request.body.comment)
+  const comment = request.body.comment
   const blog = await Blog.findById(request.params.id)
 
   blog.comments.push(comment)
