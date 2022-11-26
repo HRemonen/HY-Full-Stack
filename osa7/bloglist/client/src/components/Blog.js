@@ -18,18 +18,16 @@ const Blog = () => {
 
   return (
     <div className="blog-wrapper">
-      <div>
       <h3>{ blog.title } { blog.author }</h3>
-        <p>
-          { blog.url } <br />
-          likes { blog.likes }
-          <button onClick={() => dispatch(likeBlog(blog))}>like</button> <br />
-          added by { blog.user.name } <br />
-          {checkOwner && (
-            <button onClick={() => dispatch(deleteBlog(blog))}>delete</button>
-          )}
-        </p>
-      </div>
+      <p>
+        { blog.url } <br />
+        likes { blog.likes }
+        <button onClick={() => dispatch(likeBlog(blog))}>like</button> <br />
+        added by { blog.user.name } <br />
+        {checkOwner && (
+          <button onClick={() => dispatch(deleteBlog(blog))}>delete</button>
+        )}
+      </p>
     </div>
   );
 };

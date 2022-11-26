@@ -6,17 +6,19 @@ import Logout from "./Logout";
 const Navbar = () => {
   return (
     <>
-      <div className="navigation-bar">
-        <li>
-          <Link to="/">blogs</Link>
-        </li>
-        <li>
-          <Link to="/users">users</Link>
-        </li>
-        <li>
-          <Logout />
-        </li>
-      </div>
+      <header className="navigation-bar">
+        <nav>
+          <li>
+            <Link to="/">blogs</Link>
+          </li>
+          <li>
+            <Link className="a" to="/users">users</Link>
+          </li>
+          <li>
+            <Logout />
+          </li>
+        </nav>
+      </header>
       <div>
         <h2>Blogs app</h2>
       </div>
