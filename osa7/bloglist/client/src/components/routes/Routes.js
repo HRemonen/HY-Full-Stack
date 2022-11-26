@@ -6,6 +6,7 @@ import Navbar from "../Navigation";
 import Notification from "../Notification";
 import RenderUsers from "../RenderUsers"
 import User from "../User";
+import Blog from "../Blog";
 
 const MainRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const MainRoutes = () => {
 
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/blogs/:id" element={<Blog />}/>
         <Route path="/users" element={<RenderUsers />} />
         <Route path="/users/:name" element={<User />} />
       </Routes>

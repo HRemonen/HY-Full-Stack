@@ -20,25 +20,3 @@
   color: #d8000c;
   background-color: #ffbaba;
 }
-
-.blog-wrapper {
-  margin: 0.2em 0;
-  padding: 0.5em;
-  border-radius: 10px;
-  width: 25vw;
-  background-color: #c4c1ac;
-  border: solid 1px rgba(151, 151, 151, 0.21);
-  position: relative;
-}
-
-.blog-wrapper:hover {
-  color: white;
-  cursor: defaul;
-  margin-left: 0.5em;
-  background-color: #404040;
-  border: solid 3px rgba(151, 151, 151, 0.21);
-}
-
-.blog-wrapper b:hover {
-  cursor: pointer;
-}

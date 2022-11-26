@@ -8,7 +8,7 @@ const RenderUsers = () => {
   return (
     <>
       <h2>Users</h2>
-      <table>
+      <table className="user-table">
         <tbody>
           <tr>
             <th></th>
