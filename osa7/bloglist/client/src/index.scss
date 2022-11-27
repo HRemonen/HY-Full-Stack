@@ -39,7 +39,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  width: 100vw;
+  width: 100%;
   height: 80px;
   display: flex;
   align-items: center;
@@ -124,6 +124,8 @@ header {
 
 .login-wrapper {
   position: absolute;
+  align-items: center;
+  align-content: center;
   top: 50%;
   left: 50%;
   width: 400px;
@@ -141,84 +143,123 @@ header {
     color: #fff;
     text-align: center;
   }
-
-  .user-box {
-    position: relative;
-
-    span {
-      color: #d8000c;
+  form {
+    .user-box {
       position: relative;
-      top: -20px;
-    }
-  }
-
-  input {
-    width: 100%;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #fff;
-    margin-bottom: 30px;
-    border: none;
-    border-bottom: 1px solid #fff;
-    outline: none;
-    background: transparent;
-  }
-
-  .login-form-buttons {
-    justify-content: center;
-    align-items: center;
-    top: 50%;
-    left: 50%;
-    
-    button {
-      appearance: button;
-      background-color: #fff;;
-      background-image: none;
-      border: 1px solid #33332d;
-      border-radius: 4px;
-      box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
-      box-sizing: border-box;
-      color: #33332d;
-      cursor: pointer;
-      display: inline-block;
-      font-size: 1em;
-      line-height: 15px;
-      margin: 0 5px 10px 0;
-      overflow: visible;
-      padding: 10px 20px;
-      text-align: center;
-      text-transform: none;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-      vertical-align: middle;
-      white-space: nowrap;
-      
-      &.login-btn {
-        &:hover {
-          text-decoration: none;
-          background-color: #33332d;
-          color: #fff;
-          border: 1px solid #fff;
-        }
-      }
-      
-      &.reset-btn {
-        &:hover {
-          text-decoration: none;
-          background-color: red;
-          color: #fff;
-          border: 1px solid #fff;
-        }
-      }
   
-      &:not([disabled]):active {
-        box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
-        transform: translate(2px, 2px);
+      span {
+        color: #d8000c;
+        position: relative;
+        top: -20px;
       }
-      
+    }
+  
+    input {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 30px;
+      border: none;
+      border-bottom: 1px solid #fff;
+      outline: none;
+      background: transparent;
+    }
+  
+    .login-form-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        appearance: button;
+        background-color: #fff;;
+        background-image: none;
+        border: 1px solid #33332d;
+        border-radius: 4px;
+        box-shadow: #fff 4px 4px 0 0,#000 4px 4px 0 1px;
+        box-sizing: border-box;
+        color: #33332d;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1em;
+        line-height: 15px;
+        margin: 0 5px 10px 0;
+        overflow: visible;
+        padding: 10px 20px;
+        text-align: center;
+        text-transform: none;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-user-select: none;
+        vertical-align: middle;
+        white-space: nowrap;
+        
+        &.login-btn {
+          &:hover {
+            text-decoration: none;
+            background-color: #33332d;
+            color: #fff;
+            border: 1px solid #fff;
+          }
+        }
+        
+        &.reset-btn {
+          &:hover {
+            text-decoration: none;
+            background-color: red;
+            color: #fff;
+            border: 1px solid #fff;
+          }
+        }
+    
+        &:not([disabled]):active {
+          box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+          transform: translate(2px, 2px);
+        }
+        
+      }
     }
   }
+  
 }
 
+.blog-list-wrapper {
+  display: flex;
+
+  .blog-list {
+    list-style-type: none;
+    margin: 50px 0px 0px 0px;
+    padding: 0;
+
+    .blog-list-item {
+      background-color: #edede9;
+      border-radius: 10px;
+      width: 280px;
+      height: 140px;
+      margin-bottom: 20px;
+      padding-left: 20px;
+
+      .blog-link {
+        text-decoration: none;
+        color: #33332d;
+        position: relative;
+        top: 40px;
+      }
+
+      .blog-info {
+        display: flex;
+        position: relative;
+        top: 70px;
+        color: #ffbaba;
+
+        p {
+          padding-right: 15px;
+        }
+      }
+    }
+  }
+
+  
+}
 

@@ -8,8 +8,15 @@ const RenderBlogs = () => {
     <div className="blog-list-wrapper">
       <ul className="blog-list">
         {blogs.map((blog) => (
-          <li key={blog.id} className="blog-list-item">
-            <Link to={`/blogs/${ blog.id }`}>{ blog.title } { blog.author }</Link>
+          <li key={blog.id} >
+            <div className="blog-list-item">
+              <Link className="blog-link" to={`/blogs/${ blog.id }`}>{ blog.title }</Link>
+              <div className="blog-info">
+                <p>{ blog.likes } &#10084;</p>
+                <p>{ blog.author }</p>
+              </div>
+              
+            </div>
           </li>
         ))}
       </ul>

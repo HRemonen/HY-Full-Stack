@@ -77,7 +77,7 @@ const LoginForm = () => {
             </Field>
             <div className="login-form-buttons">
               <button className="login-btn" type="submit" disabled={submitting}>
-                Submit
+                Login
               </button>
               <button
                 className="reset-btn"

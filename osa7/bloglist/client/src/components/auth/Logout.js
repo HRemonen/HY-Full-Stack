@@ -7,7 +7,7 @@ const Logout = () => {
 
   return (
     <div>
-      <p class="logged-user">{user.username}</p>
+      <p className="logged-user">{user.username}</p>
       <button className="logout-btn" onClick={() => dispatch(logoutUser())}>
         logout
       </button>
