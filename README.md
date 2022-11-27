@@ -42,3 +42,26 @@
 - [b] props.children ja proptypet
 - [c] React-sovellusten testaaminen
 - [d] End to end -testaus
+
+### [Osa 6 - Sovelluksen tilan hallinta Redux-kirjastolla](https://fullstackopen.com/osa6)
+
+- [a] Flux-arkkitehtuuri ja Redux
+- [b] Monta reduceria
+- [c] Redux-sovelluksen kommunikointi palvelimen kanssa
+- [d] connect
+
+### [Osa 7 - React router, custom-hookit, tyylikirjastot ja webpack](https://fullstackopen.com/osa7)
+
+- [a] React-router
+- [b] custom-hookit
+- [c] Lisää tyyleistä
+- [d] Webpack
+- [e] Luokkakomponentit, sekalaista
+- [f] Blogilistan laajennus
+
+### [Osa 9 - TypeScript](https://fullstackopen.com/en/part9)
+
+- [a] Background and introduction
+- [b] First steps with TypeScript
+- [c] Typing the express app
+- [d] React with types
