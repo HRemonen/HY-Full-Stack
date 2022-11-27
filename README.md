@@ -59,7 +59,7 @@
 - [e] Luokkakomponentit, sekalaista
 - [f] Blogilistan laajennus
 
-### [Osa 9 - TypeScript](https://fullstackopen.com/en/part9)
+### [Part 9 - TypeScript](https://fullstackopen.com/en/part9)
 
 - [a] Background and introduction
 - [b] First steps with TypeScript
