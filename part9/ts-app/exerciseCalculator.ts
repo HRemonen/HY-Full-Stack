@@ -9,18 +9,41 @@ interface Results {
 };
 
 
+const checkArgs = (args: Array<string>): Array<number> => {
+  try {
+    const numberArgs = args.map(Number)
+    return numberArgs
+  }
+  catch (error) {
+    return null
+  }
+}
+
+const parseArguments = (args: Array<string>): Array<number> => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+  
+  let parsed = checkArgs(args.slice(2));
+
+  if (parsed) {
+    return parsed
+
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
+
 const calculator = (times: Array<number>, target: number): Results => {
   const periodLength = times.length;
   const trainingDays = times.filter(d => d > 0).length;
   const totalTraining = times.reduce((partial, x) => partial + x, 0);
-  const average = totalTraining / periodLength
-  const success = (average < target) ? false : true
-  const rating = Math.round(average)
+  const average = totalTraining / periodLength;
+  const success = (average < target) ? false : true;
+  const rating = Math.round(average);
   
   let ratingDescription = 
     (rating < target) ? 'that did not go as planned...' :
     (rating === target) ? 'not too bad but could be better' :
-    'very good!'
+    'very good!';
   
 
   return {
@@ -34,4 +57,16 @@ const calculator = (times: Array<number>, target: number): Results => {
   }
 };
 
-console.log(calculator([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const numberArgs = parseArguments(process.argv);
+  const args = numberArgs.slice(1, )
+  const target = numberArgs[0]
+  console.log(calculator(args, target))
+  
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.'
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}
