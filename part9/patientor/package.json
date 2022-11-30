@@ -1,0 +1,17 @@
+{
+  "name": "patientor",
+  "version": "1.0.0",
+  "description": "Patientor fs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Patientor"
+  ],
+  "author": "Henri Remonen",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
+}
