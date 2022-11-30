@@ -1,24 +1,25 @@
 import express from 'express';
-import { calculateBmi } from './bmiCalculator'
+import { calculateBmi } from './bmiCalculator';
 const app = express();
 
 
 app.get('/hello', (_req, res) => {
   res.send('Hello Full Stack!');
 });
+
 app.get('/bmi', (req, res) => {
   const queryObject = req.query;
 
   if (!queryObject) {
     return res.status(400).json({ error: 'Missing input values'});
-  };
+  }
 
   const height = Number(queryObject.height);
   const weight = Number(queryObject.weight);
 
   if (isNaN(height) || isNaN(weight)) {
     return res.status(400).json({ error: 'malformatted parameters'});
-  };
+  }
 
   const bmi = calculateBmi(height, weight);
   return res.json({ height, weight, bmi });
