@@ -32,7 +32,7 @@ const parseArguments = (args: Array<string>): Array<number> => {
   }
 };
 
-const calculator = (times: Array<number>, target: number): Results => {
+export const calculator = (times: Array<number>, target: number): Results => {
   const periodLength = times.length;
   const trainingDays = times.filter(d => d > 0).length;
   const totalTraining = times.reduce((partial, x) => partial + x, 0);
