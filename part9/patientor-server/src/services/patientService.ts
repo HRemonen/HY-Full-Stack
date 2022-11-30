@@ -1,7 +1,16 @@
-import patientData from '../../data/patients.json';
+import patients from '../../data/patients';
 
-const getPatients = () => {
-  return patientData;
+import { SensitivePatient } from '../types';
+
+const getPatients = (): Array<SensitivePatient> => {
+  return patients.map(
+    ({ id, name, dateOfBirth, gender, occupation }) => ({
+      id,
+      name,
+      dateOfBirth,
+      gender,
+      occupation
+    }));
 };
 
 export default {
