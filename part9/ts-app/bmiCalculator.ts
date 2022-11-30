@@ -1,6 +1,6 @@
 type Result = string;
 
-const checkArgs = (args: Array<string>): Array<number> => {
+const check = (args: Array<string>): Array<number> => {
   try {
     const numberArgs = args.map(Number)
     return numberArgs
@@ -10,10 +10,10 @@ const checkArgs = (args: Array<string>): Array<number> => {
   }
 }
 
-const parseArguments = (args: Array<string>): Array<number> => {
+const parseArgs = (args: Array<string>): Array<number> => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('Too many arguments');
-  let parsed = checkArgs(args.slice(2));
+  let parsed = check(args.slice(2));
 
   if (parsed) {
     return parsed
@@ -45,7 +45,7 @@ const calculateBmi = (height: number, weight: number): Result => {
 
 
 try {
-  const numberArgs = parseArguments(process.argv);
+  const numberArgs = parseArgs(process.argv);
   console.log(calculateBmi(numberArgs[0], numberArgs[1]))
   
 } catch (error: unknown) {
