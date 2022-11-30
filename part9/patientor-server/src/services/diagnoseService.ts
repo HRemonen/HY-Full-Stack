@@ -1,14 +1,13 @@
 import diagnoseData from '../../data/diagnoses.json';
 
-const getDiagnoses = () => {
-  return diagnoseData;
-};
+import { Diagnose } from '../types';
 
-const addDiagnose = () => {
-  return null;
+const diagnoses: Array<Diagnose> = diagnoseData
+
+const getDiagnoses = () => {
+  return diagnoses;
 };
 
 export default {
-  getDiagnoses,
-  addDiagnose
+  getDiagnoses
 };
