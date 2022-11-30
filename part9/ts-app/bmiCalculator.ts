@@ -1,6 +1,6 @@
 type Result = string;
 
-const check = (args: Array<string>): Array<number> => {
+const check = (args: Array<string>): Array<number> | null => {
   try {
     const numberArgs = args.map(Number)
     return numberArgs

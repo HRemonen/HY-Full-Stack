@@ -9,7 +9,7 @@ interface Results {
 };
 
 
-const checkArgs = (args: Array<string>): Array<number> => {
+const checkArgs = (args: Array<string>): Array<number> | null => {
   try {
     const numberArgs = args.map(Number)
     return numberArgs
