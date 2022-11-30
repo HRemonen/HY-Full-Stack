@@ -1,5 +1,28 @@
 type Result = string;
 
+const checkArgs = (args: Array<string>): Array<number> => {
+  try {
+    const numberArgs = args.map(Number)
+    return numberArgs
+  }
+  catch (error) {
+    return null
+  }
+}
+
+const parseArguments = (args: Array<string>): Array<number> => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+  if (args.length > 4) throw new Error('Too many arguments');
+  let parsed = checkArgs(args.slice(2));
+
+  if (parsed) {
+    return parsed
+
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
+
 const calculateBmi = (height: number, weight: number): Result => {
   if (height <= 0) throw new Error('Heigth cannot be less than 0')
   if (weight <= 0) throw new Error('Weight cannot be less than 0')
@@ -20,4 +43,15 @@ const calculateBmi = (height: number, weight: number): Result => {
 }
 
 
-console.log(calculateBmi(180, 74))
+
+try {
+  const numberArgs = parseArguments(process.argv);
+  console.log(calculateBmi(numberArgs[0], numberArgs[1]))
+  
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.'
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}
