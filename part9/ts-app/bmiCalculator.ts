@@ -23,7 +23,7 @@ const parseArgs = (args: Array<string>): Array<number> => {
   }
 }
 
-const calculateBmi = (height: number, weight: number): Result => {
+export const calculateBmi = (height: number, weight: number): Result => {
   if (height <= 0) throw new Error('Heigth cannot be less than 0')
   if (weight <= 0) throw new Error('Weight cannot be less than 0')
 
