@@ -1,0 +1,1 @@
+//import { NewPatient } from './types';

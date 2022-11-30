@@ -2,6 +2,7 @@
   "eslint.workingDirectories": [
     "./patientor-server",
     "./patientor",
-    "part9/patientor-server"
+    "part9/patientor-server",
+    "."
   ]
 }

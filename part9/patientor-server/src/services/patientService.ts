@@ -15,11 +15,11 @@ const addPatient = ( patient: NewPatient ): Patient => {
   const newPatient = {
     id: uuid(),
     ...patient
-  }
+  };
   patients.push(newPatient);
   return newPatient;
 
-}
+};
 export default {
   getPatients,
   addPatient

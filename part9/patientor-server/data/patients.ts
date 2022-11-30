@@ -1,4 +1,4 @@
-import { Patient } from '../src/types'
+import { Patient } from '../src/types';
 
 const patients: Array<Patient> =
     [
@@ -44,4 +44,4 @@ const patients: Array<Patient> =
         }
     ];
 
-export default patients
+export default patients;

@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', (_req, res) => {
   const patients = patientService.getPatients();
-  res.send(patients)
+  res.send(patients);
 });
 
 router.post('/', (req, res) => {
@@ -14,6 +14,6 @@ router.post('/', (req, res) => {
     { name, dateOfBirth, ssn, gender, occupation }
   );
   res.json(newPatient);
-})
+});
 
 export default router;
