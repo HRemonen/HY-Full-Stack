@@ -3,8 +3,7 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      "@typescript-eslint/parser"
+      "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "plugins": ["@typescript-eslint", "react"],
   "env": {
