@@ -22,10 +22,19 @@ interface CourseProjectPart extends CoursePartBase {
   groupProjectCount: number;
 }
 
-export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+interface CourseSpecialPart extends CourseDescriptionPart {
+  type: "special";
+  requirements: Array<string>;
+}
+
+export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | CourseSpecialPart;
+
+interface SinglePart {
+  part: CoursePart
+}
 
 interface Parts {
   parts: Array<CoursePart>
 }
 
-export type { Parts };
+export type { SinglePart, Parts };
