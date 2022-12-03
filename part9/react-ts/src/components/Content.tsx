@@ -1,3 +1,5 @@
+import Part from "./Part";
+
 import { Parts } from "../types";
 
 const Content = ({ parts }: Parts):JSX.Element => {
@@ -5,7 +7,7 @@ const Content = ({ parts }: Parts):JSX.Element => {
     <>
       {parts.map(part => (
         <div key={part.name}>
-          <p>{part.name} {part.exerciseCount}</p>
+          <Part part={part}/>
         </div>
       ))}
     </>
