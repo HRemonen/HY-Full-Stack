@@ -10,13 +10,10 @@ type Params = {
 };
 
 const PatientPage = () => {
-  const [{ patients }, dispatch] = useStateValue();
-  const { id } = useParams<Params>() as Params;
+  const [{ patientInfo }, dispatch] = useStateValue();
+  const { id } = useParams() as Params;
 
-  const patient = patients[id];
-
-  console.log("patient: ", patient);
-  console.log("id: ", id);
+  const patient = patientInfo[id];
 
   useEffect(() => {
     if (!patient) void getPatientInfo();
@@ -27,7 +24,7 @@ const PatientPage = () => {
       const { data: newPatient } = await axios.get<Patient>(
         `${apiBaseUrl}/patients/${id}`
       );
-      dispatch({ type: "ADD_PATIENT", payload: newPatient });
+      dispatch({ type: "ADD_PATIENT_INFO", payload: newPatient });
 
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
@@ -37,11 +34,10 @@ const PatientPage = () => {
       }
     }
   };
-  if (!patient) return null;
-
+  if (!patient) return <h1>No patient found with given id</h1>;
   return (
     <div>
-      <h1>{patient.name}</h1>
+      <h1>{patient.name} ({patient.gender})</h1>
       <p>
         ssn: { patient.ssn } <br />
         occupation: { patient.occupation }
