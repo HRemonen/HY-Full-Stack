@@ -10,13 +10,15 @@ type Params = {
 };
 
 const PatientPage = () => {
-  const [{ patientInfo }, dispatch] = useStateValue();
+  const [{ patientInfo, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams() as Params;
 
   const patient = patientInfo[id];
   const entries = patient
     ? patient.entries
     : [];
+
+  console.log(diagnoses);
 
   useEffect(() => {
     if (!patient) void getPatientInfo();
@@ -46,19 +48,27 @@ const PatientPage = () => {
         ssn: { patient.ssn } <br />
         occupation: { patient.occupation }
       </p>
-
       {entries.length > 0 &&
-        <ul>
+        <div>
           <h3>Patient entries</h3>
           {Object.values(entries).map((e: Entry) => (
-            <li key={e.id}>
+            <div key={e.id}>
               <p>
                 {e.description} <br />
-                Diagnosis codes: {e.diagnosisCodes?.join(', ')}
               </p>
-            </li>
+              <ul>
+                {e.diagnosisCodes?.map(code => {
+                  const diagnose = diagnoses[code];
+                  return (
+                    <li key={code}>
+                      {code}: {diagnose.name}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       }
     </div>
   );
