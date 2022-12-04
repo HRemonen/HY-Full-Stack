@@ -1,4 +1,4 @@
-import { Gender, NewPatient } from './types';
+import { Gender, NewPatient, NewEntry, EntryTypes, Entry, HealthCheckRating } from './types';
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -35,6 +35,41 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
+const isCode = (codes: unknown): codes is Array<string> => {
+  return Array.isArray(codes) && codes.every(code => isString(code));
+};
+
+const parseCodes = (codes: unknown): Array<string> => {
+  if(!codes || !isCode(codes)) {
+    throw new Error('Incorrect codes: ' + codes);
+  }
+  return codes;
+};
+
+const isType = (param: any): param is EntryTypes => {
+  return Object.values(EntryTypes).includes(param);
+};
+
+const parseType = (type: unknown): EntryTypes => {
+  if (!type || !isType(type)) {
+    throw new Error('Incorrect type: ' + type);
+  }
+  return type;
+};
+
+const isRating = (rating: any): rating is HealthCheckRating => {
+  return Object.values(HealthCheckRating).includes(rating);
+};
+
+const parseRating = (rating: unknown): HealthCheckRating => {
+  console.log(rating === undefined);
+  if (!Number.isInteger(rating) || !isRating(rating)) {
+    throw new Error('Incorrect or missing rating: ' + rating);
+  }
+
+  return rating;
+}
+
 type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
 
 const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation } : Fields): NewPatient => {
@@ -49,4 +84,49 @@ const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation } : Fields): 
   return newEntry;
 };
 
-export default toNewPatient;
+type EntryFields = { description: unknown, date: unknown, 
+  specialist: unknown, diagnosisCodes?: unknown, type: unknown,
+  discharge?: { date: unknown, criteria: unknown}, employerName?: unknown, 
+  sickLeave?: { startDate: unknown, endDate: unknown }, healthCheckRating?: unknown }
+
+const toNewEntry = (inputFields: EntryFields): NewEntry => {
+      const newEntry = {
+        date: parseDate(inputFields.date),
+        specialist: parseString(inputFields.specialist),
+        diagnosisCodes: parseCodes(inputFields.diagnosisCodes),
+        description: parseString(inputFields.description),
+      }
+
+      const type = parseType(inputFields.type);
+
+      switch (type) {
+        case "Hospital":
+          return {
+            type,
+            ...newEntry,
+            discharge: {
+              date: parseString(inputFields.discharge?.date),
+              criteria: parseString(inputFields.discharge?.criteria)
+            }
+          }
+        case "OccupationalHealthcare":
+          return {
+            type,
+            ...newEntry,
+            employerName: parseString(inputFields.employerName),
+            sickLeave: {
+              startDate: parseDate(inputFields.sickLeave?.startDate),
+              endDate: parseDate(inputFields.sickLeave?.endDate)
+            }
+          }
+        case "HealthCheck":
+          return {
+            type,
+            ...newEntry,
+            healthCheckRating: parseRating(inputFields.healthCheckRating)
+          }
+        default: return newEntry as Entry;
+      }
+  }
+
+export default { toNewPatient, toNewEntry };
