@@ -5,8 +5,8 @@ const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
     case "Hospital":
       return (
         <p>
-          <b>{entry.date}</b> &#x1F691; (Hospital visit)
-          patient left hospital on {entry.discharge}
+          <b>{entry.date}</b> &#x1F691; (Hospital visit) <br />
+          patient left hospital on {entry.discharge.date} on criteria: {entry.discharge.criteria}
         </p>
       );
     case "OccupationalHealthcare":
@@ -17,7 +17,7 @@ const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
         </p>
 
       );
-    default:
+    case "HealthCheck":
       return (
         <p>
           <b>{entry.date}</b> &#129523; (Health check)

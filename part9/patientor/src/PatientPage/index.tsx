@@ -44,24 +44,24 @@ const PatientPage = () => {
 
   if (!patient) return <h1>No patient found with given id</h1>;
   return (
-    <div>
-      <h1>{patient.name} ({patient.gender})</h1>
-      <p>
+    <div className='patient-wrapper'>
+      <h1 className='patient-heading'>{patient.name} ({patient.gender})</h1>
+      <p className='patient-info'>
         ssn: { patient.ssn } <br />
         occupation: { patient.occupation }
       </p>
       {entries.length > 0 &&
-        <div>
+        <div className='patient-entries-wrapper'>
           <h3>Patient entries</h3>
           {Object.values(entries).map((e: Entry) => (
-            <div key={e.id}>
+            <div key={e.id} className="patient-entry-wrapper">
               <EntryDetails entry={e} />
               <p>
                 <i>{e.description}</i> <br />
                 diagnosed by {e.specialist}
               </p>
               
-              <ul>
+              <ul className='patient-entry-diagnoses'>
                 {e.diagnosisCodes?.map(code => {
                   const diagnose = diagnoses[code];
                   return (
