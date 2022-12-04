@@ -5,6 +5,8 @@ import { useStateValue, addPatientInfo } from '../state';
 import { Entry, Patient } from '../types';
 import { apiBaseUrl } from "../constants";
 
+import EntryDetails from './EntryDetails';
+
 type Params = {
   id: string;
 };
@@ -53,9 +55,12 @@ const PatientPage = () => {
           <h3>Patient entries</h3>
           {Object.values(entries).map((e: Entry) => (
             <div key={e.id}>
+              <EntryDetails entry={e} />
               <p>
-                {e.description} <br />
+                <i>{e.description}</i> <br />
+                diagnosed by {e.specialist}
               </p>
+              
               <ul>
                 {e.diagnosisCodes?.map(code => {
                   const diagnose = diagnoses[code];
