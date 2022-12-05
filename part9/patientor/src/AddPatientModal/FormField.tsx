@@ -74,7 +74,7 @@ interface NumberProps extends FieldProps {
 }
 
 export const NumberField = ({ field, label, min, max }: NumberProps) => {
-  const [value, setValue] = useState<number>();
+  const [value, setValue] = useState<number>(0);
 
   return (
     <div style={{ marginBottom: "1em" }}>

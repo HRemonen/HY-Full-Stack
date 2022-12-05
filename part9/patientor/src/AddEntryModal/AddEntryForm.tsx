@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
-  const [{ diagnoses }] = useStateValue()
+  const [{ diagnoses }] = useStateValue();
 
   return (
     <Formik
@@ -20,7 +20,7 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         description: "",
         date: "",
         specialist: "",
-        healthCheckRating: 0
+        healthCheckRating: 3,
       }}
       onSubmit={onSubmit}
       validate={(values) => {
@@ -52,8 +52,8 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
             />
             <Field label='Type' placeholder='Type' name='type' component={TextField} />
             <Field label='Description' placeholder='Description' name='description' component={TextField} />
-            <Field label='Date of visit' placeholder='Date' name='date' component={TextField} />
-            <Field label='Specialist name' placeholder='Full name' name='specialist' component={TextField} />
+            <Field label='Date of visit' placeholder='YYYY-MM-DD' name='date' component={TextField} />
+            <Field label='Specialist name' placeholder='Specialist' name='specialist' component={TextField} />
 
             <Field
               label='Health check rating'
