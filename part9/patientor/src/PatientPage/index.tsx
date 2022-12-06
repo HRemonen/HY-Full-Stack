@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useStateValue, addPatientInfo } from '../state';
-import { Entry, Patient } from '../types';
+import { useStateValue, addPatientInfo, addPatientEntry } from '../state';
+import { Entry, Patient, NewEntry } from '../types';
 import { apiBaseUrl } from "../constants";
 import { Button } from "@material-ui/core";
 
@@ -27,9 +27,13 @@ const PatientPage = () => {
     setError(undefined);
   };
 
-  const submitNewEntry = async () => {
+  const submitNewEntry = async (values: NewEntry) => {
     try {
-      await axios.get("/ping");
+      const { data: newEntry } = await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch(addPatientEntry(newEntry, id));
       closeModal();
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
@@ -46,8 +50,6 @@ const PatientPage = () => {
   const entries = patient
     ? patient.entries
     : [];
-
-  console.log(diagnoses);
 
   useEffect(() => {
     if (!patient) void getPatientInfo();

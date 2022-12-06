@@ -38,6 +38,9 @@ const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
         if (!values.specialist) {
           errors.specialist = requiredError;
         }
+        if (!values.diagnosisCodes) {
+          errors.diagnosisCodes = requiredError;
+        }
         return errors;
       }}
     >
